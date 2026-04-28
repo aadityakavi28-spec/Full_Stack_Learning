@@ -1,0 +1,35 @@
+.demo1{
+    color: rgb(240, 237, 244);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: rgb(113, 88, 88);
+    max-width: 50%;
+    height: 2.7rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.demo2{
+    background-color: rgb(79, 79, 249);
+    color: white;
+    
+}
+
+.demo3 {
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;        /* column layout */
+    justify-content: space-between; /* space between items */
+    align-items: center;            /* center horizontally */
+    height: 20px;                  /* IMPORTANT for space-between */
+}
+
+.demo4{
+   color: rgb(240, 237, 244);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: rgb(113, 88, 88);
+    margin-left: 45%;
+}
+
+body{
+    background-color: rgba(2, 2, 35, 0.778);
+}
