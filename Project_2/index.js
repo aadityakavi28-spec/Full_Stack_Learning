@@ -56,7 +56,7 @@ function keyPress(key){
 }
 
 
-function animationEvent(currentKey){
+function animationEvent(currentKey){ 
     var activeButton = document.querySelector("." + currentKey);
     activeButton.classList.add("pressed");
 
