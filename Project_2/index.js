@@ -7,12 +7,14 @@ for(var i=0; i<n; i++){
 function clickCheck(){
     var key = this.innerHTML;
     keyPress(key);
+    animationEvent(key);
 }
 
 document.addEventListener("keypress", press);
 
 function press(event){
     keyPress(event.key);
+    animationEvent(event.key);
 }
 
 function keyPress(key){
@@ -51,4 +53,14 @@ function keyPress(key){
             break;
            
     }
+}
+
+
+function animationEvent(currentKey){
+    var activeButton = document.querySelector("." + currentKey);
+    activeButton.classList.add("pressed");
+
+    setTimeout(function(){
+        activeButton.classList.remove("pressed");
+    } , 100)
 }
