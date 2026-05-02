@@ -1,0 +1,16 @@
+{
+  "name": "learning",
+  "version": "1.0.0",
+  "description": "learning_npm",
+  "license": "ISC",
+  "author": "Adi",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "one-liner-joke": "^1.2.2",
+    "superheroes": "^4.0.0"
+  }
+}
