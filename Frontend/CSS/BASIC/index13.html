@@ -1,0 +1,57 @@
+<!------------------------------------------------ Responsive grid design ----------------------------------------------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            height: 100%;
+            width: 100%;
+            
+        }
+        .container{
+            height: 100%;
+            width: 100%;
+            background-color: rgb(124, 124, 184);
+            border: 1px solid rgb(42, 37, 37);
+            padding: 4rem;
+            display: grid;
+            /* grid-template-columns: repeat(3,1fr);
+            grid-template-rows: repeat(2,1fr); */
+            grid-template-columns: repeat(auto-fit , minmax(300 , 200));
+            gap: 4rem;
+
+        }
+        .item{
+            color: rgb(20, 1, 1);
+            font-weight: bold;
+            font-size: 4rem;
+            text-shadow: 2px 3px 5px blue;
+            background-color: rgb(207, 207, 95);
+            border: solid black 1px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item">A</div>
+        <div class="item">B</div>
+        <div class="item">C</div>
+        <div class="item">D</div>
+        <div class="item">E</div>
+        <div class="item">F</div>
+    </div>
+    
+</body>
+</html>

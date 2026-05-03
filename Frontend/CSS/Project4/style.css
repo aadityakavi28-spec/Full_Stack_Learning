@@ -1,0 +1,157 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---------- PAGE ---------- */
+body{
+    width: 100vw;
+    background-color:#AFEEEE;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ---------- CONTAINER ---------- */
+.container{
+    width: 90%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background-color: whitesmoke;
+}
+
+/* ---------- HEADER ---------- */
+header{
+    margin-bottom: 2.8rem;
+}
+
+header h1{
+    text-align: center;
+    margin-bottom: 0.4rem;
+}
+
+.headerdescription{
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgb(112, 110, 117);
+}
+
+/* ---------- GRID ---------- */
+main{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px , 400px)); /* 4 columns */
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+/* ---------- CARD ---------- */
+.card{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid #535252;
+    background-color: #fff;
+    box-shadow: 0 0 30px rgba(200, 12, 12, 0.2);
+}
+
+/* ---------- IMAGE ---------- */
+.cardimage{
+    position: relative;
+    height: 14rem;
+    overflow: hidden;
+}
+
+.img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .img{
+    transform: scale(1.1);
+}
+
+/* ---------- TEXT ---------- */
+.cardtext1{
+    padding: 1.5rem;
+}
+
+.cardtitle{
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: rgb(53, 51, 51);
+    margin-bottom: 0.7rem;
+    min-height: 3.2rem; /* keeps titles equal */
+}
+.cardtitle:hover{
+    color: blue;
+}
+
+
+.carddescription{
+    font-size: 1rem;
+    color: rgb(129, 127, 127);
+}
+
+/* ---------- FOOTER ---------- */
+.cardfooterbox{
+    margin-top: auto; /* KEY LINE */
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ---------- LEFT FOOTER ---------- */
+.leftbox{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.leftboximage{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgb(135, 134, 134);
+    background-color: rgb(232, 230, 230);
+}
+
+.leftboximage img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.leftboxtext{
+    display: flex;
+    flex-direction: column;
+}
+
+.firsttext{
+    color: rgb(12, 12, 249);
+    font-weight: 600;
+}
+
+.secondtext{
+    color: rgb(110, 106, 106);
+    font-size: 0.9rem;
+}
+
+/* ---------- RIGHT FOOTER ---------- */
+.rightbox{
+    border: 1px solid rgb(102, 100, 100);
+    border-radius: 5px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+    color: rgb(113, 111, 111);
+}
+
+/* ---------- LINKS ---------- */
+a{
+    text-decoration: none;
+}

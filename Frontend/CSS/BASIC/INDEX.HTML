@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document - A4 Print</title>
+    
+    <STYLE>
+        /* A4 Print Styling */
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+        
+        body {
+            margin: 0;
+            padding: 1cm;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #000;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 1cm;
+                background-color: white;
+            }
+            .para1, .para2, .para3 {
+                page-break-inside: avoid;
+                margin-bottom: 1cm;
+            }
+            H1 {
+                page-break-after: avoid;
+            }
+        }
+        
+        H1{
+            background-color: rgb(213, 102, 121);
+            border-style: solid;
+            border-color: black;
+            border-width: 5px;
+            border-radius: 20px;
+            width: 250px;
+            text-align: center;
+            text-decoration: underline;
+            padding: 10px;
+            margin-left: 580px;
+
+        }
+        .para1{
+            background-color: rgb(74, 203, 203);
+            border-style: solid;
+            border-color: black;
+            height: 200px;
+            width: 400px;
+            text-align: center;
+
+            padding-top: 100px;
+            margin-left: 50px;
+
+        }
+        .para2{
+            background-color: rgb(249, 152, 6);
+            border-style: solid;
+            border-color: black;
+            height: 200px;
+            width: 400px;
+            text-align: center;
+
+            padding-top: 100px;
+            margin-left: 400px;
+
+        }
+        .para3{
+            background-color: rgb(72, 172, 72);
+            border-style: solid;
+            border-color: black;
+            height: 200px;
+            width: 400px;
+            text-align: center;
+
+            padding-top: 100px;
+            padding-bottom: 80px;
+            margin-left: 750px;
+
+        }
+        *{
+            background-color: rgb(136, 239, 205);
+        }
+    </STYLE>
+
+
+
+</head>
+<body>
+    <H1>WELOCOME</H1>
+
+    <p class="para1">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis minus beatae exercitationem non provident. Nisi ipsum dolore magni earum quaerat, explicabo ipsam minima repellendus ut architecto odio quasi. Vitae, modi.</p>
+    
+    <P class="para2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore obcaecati debitis sequi voluptatum velit, quae laborum eos facilis corrupti totam aut culpa molestiae dicta tempora minus inventore, fugit in ad voluptate harum perspiciatis nulla? Iusto quasi quo perferendis dignissimos harum?</P>
+    
+    <P class="para3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi quia aperiam tempore consectetur natus neque velit voluptatum, deleniti autem eius nam iure distinctio fugit eum laudantium. Sed aliquam porro laboriosam aliquid dolore, omnis hic. Quos autem odio, ipsa esse, aperiam perferendis rerum qui eos quasi, veniam reprehenderit tempora quas. Possimus explicabo, nostrum repellat ducimus harum ratione quaerat repudiandae nihil eveniet.</P>
+</body>
+
+
+</html>

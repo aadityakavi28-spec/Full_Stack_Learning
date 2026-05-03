@@ -1,0 +1,131 @@
+<!-- ----------------------------------------------------media Query-------------------------------- -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 2px;
+            margin: 2px;
+        }
+
+             /* FOR 1ST */
+        /*container{
+            border: solid black 3px;
+            height: 200px;
+            width: 200px;
+            background-color: gray;
+        }
+        /* @media (min-width:500px){
+            .container{
+                background-color: blue;
+            }
+        } */
+
+        /* @media (max-width:500px){
+            .container{
+                background-color: blue;
+            }
+        } */
+
+        /* @media (min-width:300px) and (max-width:500px){
+            .container{
+                background-color: blue;
+            }
+        } */ 
+
+
+
+
+
+
+        /* FOR 2ND */
+        .container{
+            border: solid black 5px;
+            background-color: beige;
+            display: flex;
+        }
+        @media (max-width:700px){
+            .container{
+                background-color: yellowgreen;
+            }
+        }
+
+        .box{
+            border: solid red 3px;
+            background-color: pink;
+            height: 200px;
+            width: 200px;
+            padding: 5px;
+            margin: 5px;
+        }
+        /* @media (max-width:700px){
+            .container{
+                flex-direction: row;
+            }
+        }
+        @media (min-width:700px){
+            .container{
+                flex-direction: column;
+            }
+        } */
+
+        @media (max-width:700px){
+            .container{
+                flex-direction: column;
+            }
+        }
+        @media (min-width:700px){
+            .container{
+                flex-direction: row;
+            }
+        }
+        #box1{
+            background-color: black;
+            height: 150px;
+            width: 100px;
+
+        }
+        #box2{
+            background-color: blue;
+            height: 150px;
+            width: 100px;
+
+
+        }
+        
+        #box3{
+            background-color: purple;
+            height: 150px;
+            width: 100px;
+
+        
+        }
+
+
+    </style>
+</head>
+<body>
+    <!--      1ST 
+    <div class="container">
+        Heloo My Dear Friend 
+    </div> -->
+
+
+
+
+    <!-- FOR 2ND -->
+     <div class="container">
+        <div class="box" id="box1"></div>
+        <div class="box" id="box2"></div>
+        <div class="box" id="box3"></div>
+     </div>
+
+
+    
+</body>
+</html>

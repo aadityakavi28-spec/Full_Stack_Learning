@@ -1,0 +1,126 @@
+
+             <!------------------------------------------ FELXBOX--------------------------------------------------------------- -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document - A4 Print</title>
+    <style>
+        /* A4 Print Styling */
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+        
+        body {
+            margin: 0;
+            padding: 1cm;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            max-width: 21cm;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 1cm;
+                background-color: white;
+            }
+            .container {
+                page-break-inside: avoid;
+                height: auto !important;
+                width: 100% !important;
+                max-width: 19cm;
+            }
+            .box1, .box2, .box3 {
+                page-break-inside: avoid;
+            }
+        }
+        
+        /* .outer{
+            border: solid #000000 2px;
+            height: 210px;
+            width: 50%;
+            padding: 5px;
+            overflow: auto;
+            margin-left: 350px;
+            margin-top: 250px;
+        
+        }
+        img{
+            float: right;
+            height: 210px;
+        } */
+
+
+        /* FELXBOX */
+        
+        *{
+            margin: 10px;
+            padding: 5px;
+
+        }
+        
+        .container{
+            border: solid black 2px;
+            height: 530px;
+             display: flex;
+            flex-direction: column;
+            flex-direction: row-reverse;
+            flex-direction: row;
+            flex-wrap: wrap;
+            /* justify-content:start ; */
+            justify-content: center;
+            /* justify-content: space-around;
+            justify-content: space-between; */
+            align-items: center;
+            /* align-content: center;
+            align-content: baseline;
+            align-content: end; */
+
+        }
+        .box1{
+            background-color: gray;
+            height: 150px;
+            width: 100px;
+
+        }
+        .box2{
+            background-color: plum;
+            height: 150px;
+            width: 100px;
+
+
+        }
+        .box3{
+            background-color: antiquewhite;
+            height: 150px;
+            width: 100px;
+
+        
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- <div class="outer">
+        <img src="image.jpg" alt="" class="image">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed iure illo vel sapiente totam dolore suscipit reprehenderit dolores quasi. Aut explicabo repellendus deserunt corrupti laboriosam placeat suscipit, deleniti libero molestiae at nobis maxime praesentium odio earum, blanditiis dolor ut quaerat inventore quasi reiciendis est? Quos atque iusto excepturi dicta voluptatibus, ullam libero minima nostrum voluptatum dolor nemo qui natus fugiat quidem assumenda laudantium, hic itaque veritatis laborum at nam officia commodi! Enim neque minima eum dignissimos voluptatum quas, itaque sequi magni quae mollitia cum rem! Id, dignissimos. Reprehenderit, maxime sit! Nobis aliquam fugit beatae, animi quas nesciunt minus blanditiis modi ut cum quo asperiores odit iusto molestias fugiat itaque maxime veniam. Illum ipsum vero consectetur tempore esse eius sit possimus aut reiciendis beatae alias saepe doloremque ab a fuga pariatur nostrum officiis quod blanditiis, explicabo nulla. Voluptas aut expedita modi sed laborum itaque, nisi, dolore qui eum soluta in eveniet ad deserunt aperiam explicabo enim consequatur delectus. Vel ea expedita ipsam ipsa consectetur voluptatibus dolorum recusandae ipsum maxime autem, adipisci ad delectus quos natus. Placeat impedit magni, consectetur repudiandae minus inventore praesentium deleniti, deserunt nam voluptas, quos sed. Iure nulla unde molestias, doloribus accusantium dolor sunt ab doloremque expedita beatae!</p>
+    </div> -->
+
+    <div class="container">
+
+        <div class="box1" ></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+    </div>
+
+    
+
+    
+</body>
+</html>

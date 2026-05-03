@@ -1,0 +1,59 @@
+<!---------------------- Transition----------------------- -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            border: solide black 3px;
+        }
+        .box{
+            width: 300px;
+            height: 200px;
+            border-radius: 5px;
+            border: solid red 2px;
+            background-color: pink;
+            overflow:hidden;
+            box-shadow: 2px 8px 3px red;
+            
+
+
+            
+            transition-property: all ;
+            transition-duration: 5s;
+            transition-timing-function: ease-in-out;
+            transition-delay: 1s ;
+            
+
+        }
+        .box:hover{
+            width: 1000px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: chartreuse;
+            
+
+
+        }
+        #heading{
+            text-shadow: 2px 3px 1px #9393f6;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <h2 id="heading">Welcome to this transition</h2><br>
+            <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores ratione numquam corporis veniam aperiam officia necessitatibus sunt delectus quam ullam, iusto veritatis eaque repellendus ad inventore reprehenderit praesentium nihil, adipisci quis blanditiis quae architecto rem tempore. Modi obcaecati, dolores tenetur hic unde expedita minus sequi provident blanditiis, inventore, mollitia quia. Molestiae eveniet iusto delectus aliquam vel, nulla dolorum in? Aspernatur voluptatibus reprehenderit commodi magnam id fuga exercitationem culpa nisi molestiae tempore voluptates neque maiores facere delectus suscipit asperiores, similique quisquam est itaque dolor enim! Eligendi commodi rerum veniam et, dolorem sint, aspernatur assumenda necessitatibus non dicta nesciunt error laudantium nisi!</p>
+        </div>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document - A4 Print</title>
+    <style>
+        /* A4 Print Styling */
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+        
+        body {
+            margin: 0;
+            padding: 1cm;
+            font-family: Arial, sans-serif;
+            background-color: white;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 1cm;
+                background-color: white;
+            }
+            .container, .container2 {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            img {
+                page-break-inside: avoid;
+                max-width: 100%;
+            }
+        }
+
+        img{ 
+            border: solid rgb(56, 4, 4);
+            margin-left: 10px;
+        }
+        .container{
+            position: relative;
+            border: solid;
+            border-color: black;
+            padding:20px;
+            height: 2500px;
+            background-color: rgb(83, 215, 171);
+        }
+
+        .image1{
+            /*  this is the example of relative position in css
+            position: relative;
+            top: 200px; */
+
+            /*  this is the example of absolute position in css
+             position: absolute;
+            top: 200px; */
+
+            /*  this is the example of fixed position in css
+            position: fixed; */
+
+            /*  this is the example of sticky position in css
+            position: sticky;
+            top: 100px; */
+
+            position: relative;
+            top: 200px;
+        }
+        .iamge2{
+            position: absolute;
+            top: 400px;
+        }
+        
+        .image3{
+            position: fixed;
+        }
+        .iamge4{
+            position: sticky;
+            top: 100px;
+            
+        }
+
+        .container2{
+            height: 2500px;
+            border: solid black 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="img1.jpeg"alt="image1" width="300px" height="300px" class="image1">
+        
+        <img src="img2.jpg"alt="image2" width="300px" height="300px" class="image2" >
+
+        <img src="img3.webp"alt="image3" width="300px" height="300px" class="image3">
+
+        <img src="img4.jpg"alt="image4" width="300px" height="300px" class="image4" >
+    </div>
+
+    <div class="container2">
+
+    </div>
+    
+</body>
+</html>

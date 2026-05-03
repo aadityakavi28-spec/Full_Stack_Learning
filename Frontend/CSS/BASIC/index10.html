@@ -1,0 +1,64 @@
+<!----------------------------------------------------- 2D Transform------------------------------------------------------------ -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+    }
+    .container{
+        border: solid black 2px;
+        background-color: aliceblue;
+        height: 1000px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+
+    
+    }
+    .box{
+        height: 300px;
+        width: 300px;
+        background-color: yellow;
+        border: black solid 2px;
+        margin: auto;
+         display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 5s linear 0s;
+    }
+    .box:hover{
+        /* transform: rotate(180deg); */
+        /* transform: scale(2); */
+        /* transform: scale(0.5); */
+        /* transform: skew(45deg); */
+        /* transform: translate(500px); */
+        /* transform: translate(-500px); */
+        /* transform: translate(0 , 500px); */
+        /* transform: translate(0,-500px); */
+        transform: translate(500px,500px);
+
+
+    }
+    p{
+        font-size: 20px;
+        
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="box">
+            <p>Demo Box for 2D Transform</p>
+        </div>
+    </div>
+</body>
+</html>

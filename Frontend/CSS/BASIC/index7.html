@@ -1,0 +1,92 @@
+
+
+
+<!--------------------------------- CSS Shadow effect --------------------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root{
+            /* this is the concept of custom variable */
+            --this-is-red-color: rgb(247, 247, 145);
+            --this-is-my-custom-height: 500px;
+            
+
+        }
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        .container{
+            border: solid black 3px;
+            height: var(--this-is-my-custom-height);
+            background-color: var(--this-is-red-color);
+            display: flex;
+            justify-content:center ;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 10px; 
+        }
+        img{
+            width: 100px;
+            height: 50px;
+            margin-left: 90px;
+            margin-top: 10px;
+            
+        }
+        .box{
+            border: solid black 3px;
+            background-color: rgb(167, 236, 174);
+            height: 300px;
+            width: 300px;
+            margin: 5px;
+             /* box-shadow: 5px 5px black;  */
+            /* box-shadow: -5px 5px black; */
+            box-shadow: 10px 15px 10px black;
+            /* box-shadow: 10px 15px 20px 30px brown; */
+            /* box-shadow: inset 10px 15px 10px gray; */
+            /* box-shadow: 10px 15px 10px green , 15px 20px 5px black; */
+            
+        }
+        .outer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #text{
+            text-align: center;
+            text-shadow: rgb(124, 124, 236) 2px 5px 1px;
+        }
+        #insidetext{
+            text-shadow: red 1px 1px 1px , purple 2px 2px 2px, yellow 3px 3px 3px;
+        }
+        
+
+
+
+    </style>
+</head>
+<body>
+    <div class="outer">
+        <h1 id="text" >Welcome To You</h1><br><br>
+        
+    </div>
+    
+    <div class="container">
+        <div class="box">
+            <img src="logo.jpg" alt="Image"><br><br>
+            <h2 id="insidetext">Welcome To CodeHelp</h2><br>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, autem temporibus! Cumque voluptas reiciendis nam? Tempora amet ipsa fugit voluptates vel, eum assumenda similique nam consequuntur inventore rem, perspiciatis quae itaque id expedita? Beatae dolorum magnam rerum adipisci, dignissimos sapiente.
+            </p>
+
+
+        </div>
+        
+    
+</body>
+</html>

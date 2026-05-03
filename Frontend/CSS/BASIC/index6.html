@@ -1,0 +1,77 @@
+
+
+
+<!-- ---------------------------flex + media Query---------------------------------------- -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        *{
+            margin-left: 5px;
+            
+        }
+        .container{
+            border: solid red 3px;
+            height: 700px;
+            padding: 2px;
+            display: flex;
+            background-color: green;
+            justify-content: center;
+            justify-content: space-around;
+            align-items: center;
+            overflow: auto;
+            
+            
+        }
+        .boxleft{
+            background-color: aquamarine; 
+            height: 300px;
+            width: 30%;
+            overflow: scroll;
+
+        }
+        .boxright{
+            background-color: antiquewhite;
+            height: 300px;
+            width: 30%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: scroll;
+
+        }
+        img{
+            border: solid black 2px;
+            height: 200px;
+            width: 200px;  
+        }
+        @media  (max-width:500px){
+            .container{
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="boxleft">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae rem amet ad voluptatem, adipisci cupiditate porro esse inventore repellat eaque! Ut ex unde aperiam pariatur et magni quae aut excepturi?</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores dignissimos facilis quas incidunt labore, commodi ullam id nihil voluptates praesentium eligendi eius similique? Labore facere vero, voluptas at saepe veritatis aliquam, ut sed fugiat nam incidunt voluptates quia maxime ex.</p>
+
+        </div>
+        <div class="boxright">
+            <img src="image.jpg" alt="">
+
+        </div>
+    </div>
+    
+</body>
+</html>
