@@ -1,0 +1,24 @@
+{
+  "name": "qr_generator",
+  "version": "1.0.0",
+  "description": "project",
+  "homepage": "https://github.com/aadityakavi28-spec/Full_Stack_Demo#readme",
+  "bugs": {
+    "url": "https://github.com/aadityakavi28-spec/Full_Stack_Demo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aadityakavi28-spec/Full_Stack_Demo.git"
+  },
+  "license": "ISC",
+  "author": "Adi",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "inquirer": "^13.4.2",
+    "qr-image": "^3.2.0"
+  }
+}
