@@ -1,0 +1,1384 @@
+Complete Express.js Guide with Node.js
+📚 Table of Contents
+What is Node.js & Express.js?
+Setup & Installation
+Your First Express Server
+Routing
+Middleware
+Request & Response Objects
+Serving Static Files
+Template Engines
+Error Handling
+REST API Building
+Project Structure
+Best Practices
+1. Basics
+What is Node.js?
+text
+
+┌─────────────────────────────────────────────────────────┐
+│                    NODE.JS                              │
+│  ┌─────────────────────────────────────────────────┐   │
+│  │         JavaScript Runtime Environment           │   │
+│  │    (Runs JS outside the browser - on server)     │   │
+│  └─────────────────────────────────────────────────┘   │
+│                                                         │
+│  Features:                                              │
+│  • V8 Engine (Chrome's JS engine)                       │
+│  • Non-blocking I/O (Asynchronous)                      │
+│  • Event-driven architecture                            │
+│  • Single-threaded but scalable                         │
+└─────────────────────────────────────────────────────────┘
+What is Express.js?
+text
+
+┌─────────────────────────────────────────────────────────┐
+│                   EXPRESS.JS                            │
+│              (Web Framework for Node.js)                │
+│                                                         │
+│  Why Express?                                           │
+│  • Simplifies routing                                   │
+│  • Middleware support                                   │
+│  • Template engine integration                          │
+│  • Easy API building                                    │
+│  • Large ecosystem/plugins                              │
+│                                                         │
+│  Without Express: With Express:                         │
+│  ┌──────────────┐    ┌──────────────┐                   │
+│  │ 50+ lines    │ →  │  5-10 lines  │                   │
+│  │ Complex code │    │  Clean code  │                   │
+│  └──────────────┘    └──────────────┘                   │
+└─────────────────────────────────────────────────────────┘
+Comparison: Raw Node.js vs Express.js
+javascript
+
+// ========== WITHOUT EXPRESS (Raw Node.js) ==========
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+    // Manual routing
+    if (req.url === '/' && req.method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end('<h1>Home</h1>');
+    } else if (req.url === '/about') {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end('<h1>About</h1>');
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/html' });
+        res.end('<h1>Not Found</h1>');
+    }
+});
+
+server.listen(3000);
+
+// ========== WITH EXPRESS ==========
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => res.send('<h1>Home</h1>'));
+app.get('/about', (req, res) => res.send('<h1>About</h1>'));
+
+app.listen(3000);
+2. Setup & Installation
+Step-by-Step Setup
+bash
+
+# 1. Check if Node.js is installed
+node --version
+npm --version
+
+# 2. Create project folder
+mkdir my-express-app
+cd my-express-app
+
+# 3. Initialize npm project (creates package.json)
+npm init -y
+
+# 4. Install Express
+npm install express
+
+# 5. Install nodemon for development (auto-restart on changes)
+npm install --save-dev nodemon
+
+# 6. Your package.json will look like:
+json
+
+{
+  "name": "my-express-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}
+Folder Structure After Setup
+text
+
+my-express-app/
+├── node_modules/     # Dependencies (auto-created)
+├── package.json      # Project config
+├── package-lock.json # Lock file for dependencies
+└── index.js          # Your main file (create this)
+3. Your First Express Server
+javascript
+
+// index.js
+const express = require('express');
+const app = express();
+const PORT = 3000;
+
+// Basic route
+app.get('/', (req, res) => {
+    res.send('Hello World! 🌍');
+});
+
+// Starting the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+Understanding the Flow
+text
+
+┌──────────────┐      ┌──────────────┐      ┌──────────────┐
+│   Browser    │      │   Express    │      │   Response   │
+│              │      │    App       │      │              │
+│  Request ────┼─────→│  Route Match │─────→│  Send Data   │
+│  GET /       │      │  Execute     │      │  HTML/JSON   │
+│              │      │  Handler     │      │              │
+└──────────────┘      └──────────────┘      └──────────────┘
+4. Routing (Most Important)
+
+Route Structure
+text
+
+app.METHOD(PATH, HANDLER)
+
+┌───────┬─────────┬────────────────┬─────────────────────┐
+│ METHOD│  PATH   │    HANDLER     │      DESCRIPTION    │
+├───────┼─────────┼────────────────┼─────────────────────┤
+│ GET   │  '/'    │ (req,res)=>{}  │  Get resource       │
+│ POST  │  '/users│ (req,res)=>{}  │  Create resource    │
+│ PUT   │'/users/:│ (req,res)=>{}  │  Update resource    │
+│ DELETE│'/users/:│ (req,res)=>{}  │  Delete resource    │
+└───────┴─────────┴────────────────┴─────────────────────┘
+Basic Routing Examples
+javascript
+
+const express = require('express');
+const app = express();
+
+// ========== SIMPLE ROUTES ==========
+app.get('/', (req, res) => {
+    res.send('Home Page');
+});
+
+app.get('/about', (req, res) => {
+    res.send('About Page');
+});
+
+app.get('/contact', (req, res) => {
+    res.send('Contact Page');
+});
+
+// ========== ROUTE PARAMETERS (Dynamic Routes) ==========
+// /users/123 → userId = '123'
+app.get('/users/:userId', (req, res) => {
+    const userId = req.params.userId;
+    res.send(`User ID: ${userId}`);
+});
+
+// Multiple parameters
+// /posts/2024/javascript → year='2024', category='javascript'
+app.get('/posts/:year/:category', (req, res) => {
+    const { year, category } = req.params;
+    res.send(`Year: ${year}, Category: ${category}`);
+});
+
+// ========== QUERY PARAMETERS ==========
+// /search?q=express&limit=10
+app.get('/search', (req, res) => {
+    const { q, limit } = req.query;
+    res.send(`Search: ${q}, Limit: ${limit}`);
+});
+
+// ========== ROUTE WITH REGEX ==========
+// Matches anything ending with 'fly'
+app.get(/.*fly$/, (req, res) => {
+    res.send('This route matches anything ending with "fly"');
+});
+
+// ========== MULTIPLE HANDLERS (Route Middleware) ==========
+app.get('/multi-handler', 
+    (req, res, next) => {
+        console.log('First handler');
+        next(); // Pass to next handler
+    },
+    (req, res) => {
+        res.send('Second handler');
+    }
+);
+
+// ========== ARRAY OF HANDLERS ==========
+const handler1 = (req, res, next) => {
+    console.log('Handler 1');
+    next();
+};
+
+const handler2 = (req, res) => {
+    res.send('Handler 2');
+};
+
+app.get('/array-handlers', [handler1, handler2]);
+
+app.listen(3000);
+Route Methods
+javascript
+
+// All HTTP methods supported
+app.get('/resource', (req, res) => res.send('GET'));
+app.post('/resource', (req, res) => res.send('POST'));
+app.put('/resource', (req, res) => res.send('PUT'));
+app.patch('/resource', (req, res) => res.send('PATCH'));
+app.delete('/resource', (req, res) => res.send('DELETE'));
+
+// All methods for same path
+app.all('/secret', (req, res) => {
+    res.send('Accessing secret with any method');
+});
+
+// app.route() - Chainable route handlers
+app.route('/book')
+    .get((req, res) => res.send('Get a book'))
+    .post((req, res) => res.send('Add a book'))
+    .put((req, res) => res.send('Update a book'));
+Route Groups (Express Router)
+javascript
+
+const express = require('express');
+const app = express();
+
+// Create a router
+const userRouter = express.Router();
+
+// Define routes on the router
+userRouter.get('/', (req, res) => {
+    res.send('All users');
+});
+
+userRouter.get('/:id', (req, res) => {
+    res.send(`User ${req.params.id}`);
+});
+
+userRouter.post('/', (req, res) => {
+    res.send('Create user');
+});
+
+// Use the router with a prefix
+app.use('/api/users', userRouter);
+
+// Now routes are:
+// GET  /api/users      → All users
+// GET  /api/users/123  → User 123
+// POST /api/users      → Create user
+
+app.listen(3000);
+Router Module (Separate File)
+javascript
+
+// routes/userRoutes.js
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => {
+    res.json({ message: 'Get all users' });
+});
+
+router.get('/:id', (req, res) => {
+    res.json({ message: `Get user ${req.params.id}` });
+});
+
+router.post('/', (req, res) => {
+    res.json({ message: 'Create user' });
+});
+
+module.exports = router;
+javascript
+
+// index.js
+const express = require('express');
+const userRoutes = require('./routes/userRoutes');
+
+const app = express();
+app.use('/api/users', userRoutes);
+
+app.listen(3000);
+5. Middleware (Core Concept)
+What is Middleware?
+text
+
+┌─────────────────────────────────────────────────────────────┐
+│                    MIDDLEWARE CONCEPT                        │
+│                                                              │
+│  Request → [Middleware 1] → [Middleware 2] → [Route Handler] │
+│              ↓                ↓                ↓            │
+│           (next())        (next())        (Response)        │
+│                                                              │
+│  Middleware can:                                             │
+│  • Execute code                                              │
+│  • Modify request/response objects                           │
+│  • End the request-response cycle                            │
+│  • Call next() to pass control to next middleware            │
+└─────────────────────────────────────────────────────────────┘
+Types of Middleware
+javascript
+
+const express = require('express');
+const app = express();
+
+// ========== 1. APPLICATION-LEVEL MIDDLEWARE ==========
+// Runs for EVERY request
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
+
+// Runs for specific path
+app.use('/api', (req, res, next) => {
+    console.log('API route accessed');
+    next();
+});
+
+// ========== 2. ROUTER-LEVEL MIDDLEWARE ==========
+const router = express.Router();
+router.use((req, res, next) => {
+    console.log('Router middleware');
+    next();
+});
+app.use('/users', router);
+
+// ========== 3. ERROR-HANDLING MIDDLEWARE ==========
+// Must have 4 parameters
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
+// ========== 4. BUILT-IN MIDDLEWARE ==========
+app.use(express.json());       // Parse JSON bodies
+app.use(express.urlencoded()); // Parse URL-encoded bodies
+app.use(express.static('public')); // Serve static files
+
+// ========== 5. THIRD-PARTY MIDDLEWARE ==========
+// npm install morgan cookie-parser
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+
+app.use(morgan('dev'));          // Logging
+app.use(cookieParser());         // Parse cookies
+
+app.listen(3000);
+Practical Middleware Examples
+javascript
+
+// ========== AUTHENTICATION MIDDLEWARE ==========
+const authMiddleware = (req, res, next) => {
+    const token = req.headers.authorization;
+    
+    if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+    }
+    
+    if (token === 'valid-token') {
+        req.user = { id: 1, name: 'John' }; // Attach user to request
+        next();
+    } else {
+        res.status(403).json({ error: 'Invalid token' });
+    }
+};
+
+// Use for specific routes
+app.get('/protected', authMiddleware, (req, res) => {
+    res.json({ message: 'Protected data', user: req.user });
+});
+
+// ========== LOGGING MIDDLEWARE ==========
+const logger = (req, res, next) => {
+    const start = Date.now();
+    
+    res.on('finish', () => {
+        const duration = Date.now() - start;
+        console.log(`${req.method} ${req.url} - ${res.statusCode} [${duration}ms]`);
+    });
+    
+    next();
+};
+
+app.use(logger);
+
+// ========== VALIDATION MIDDLEWARE ==========
+const validateUser = (req, res, next) => {
+    const { name, email } = req.body;
+    
+    if (!name || !email) {
+        return res.status(400).json({ error: 'Name and email required' });
+    }
+    
+    if (!email.includes('@')) {
+        return res.status(400).json({ error: 'Invalid email' });
+    }
+    
+    next();
+};
+
+app.post('/users', validateUser, (req, res) => {
+    res.status(201).json({ message: 'User created', user: req.body });
+});
+
+// ========== ROLE-BASED ACCESS MIDDLEWARE ==========
+const checkRole = (role) => {
+    return (req, res, next) => {
+        if (req.user && req.user.role === role) {
+            next();
+        } else {
+            res.status(403).json({ error: 'Access denied' });
+        }
+    };
+};
+
+// Usage
+app.get('/admin', authMiddleware, checkRole('admin'), (req, res) => {
+    res.json({ message: 'Admin area' });
+});
+
+// ========== RATE LIMITING MIDDLEWARE (Simple) ==========
+const rateLimiter = (maxRequests, windowMs) => {
+    const requests = new Map();
+    
+    return (req, res, next) => {
+        const ip = req.ip;
+        const now = Date.now();
+        const windowStart = now - windowMs;
+        
+        // Clean old requests
+        for (const [key, timestamps] of requests) {
+            requests.set(key, timestamps.filter(t => t > windowStart));
+            if (requests.get(key).length === 0) {
+                requests.delete(key);
+            }
+        }
+        
+        // Check current requests
+        const userRequests = requests.get(ip) || [];
+        
+        if (userRequests.length >= maxRequests) {
+            return res.status(429).json({ error: 'Too many requests' });
+        }
+        
+        userRequests.push(now);
+        requests.set(ip, userRequests);
+        next();
+    };
+};
+
+app.use(rateLimiter(100, 60000)); // 100 requests per minute
+Middleware Execution Order
+javascript
+
+const express = require('express');
+const app = express();
+
+// Order matters! Middlewares execute in the order they are defined
+
+app.use((req, res, next) => {
+    console.log('1 - Always runs first');
+    next();
+});
+
+app.use('/api', (req, res, next) => {
+    console.log('2 - Runs for /api routes');
+    next();
+});
+
+app.get('/api/users', (req, res, next) => {
+    console.log('3 - Route handler');
+    res.send('Users');
+});
+
+app.use((req, res, next) => {
+    console.log('4 - This will NOT run for /api/users because response was sent');
+    next();
+});
+
+// Request to GET /api/users outputs:
+// 1 - Always runs first
+// 2 - Runs for /api routes
+// 3 - Route handler
+
+app.listen(3000);
+6. Request & Response Objects
+Request Object (req)
+javascript
+
+app.get('/example/:id', (req, res) => {
+    // ========== ROUTE PARAMETERS ==========
+    console.log(req.params);    // { id: '123' }
+    console.log(req.params.id); // '123'
+    
+    // ========== QUERY PARAMETERS ==========
+    // URL: /example/123?name=John&age=25
+    console.log(req.query);     // { name: 'John', age: '25' }
+    console.log(req.query.name);// 'John'
+    
+    // ========== HEADERS ==========
+    console.log(req.headers);           // All headers
+    console.log(req.headers['user-agent']); // Browser info
+    console.log(req.get('Content-Type'));    // Get specific header
+    
+    // ========== BODY (need middleware first) ==========
+    // app.use(express.json());
+    console.log(req.body); // Parsed body
+    
+    // ========== REQUEST INFO ==========
+    console.log(req.method);  // 'GET'
+    console.log(req.url);     // '/example/123?name=John'
+    console.log(req.path);    // '/example/123'
+    console.log(req.protocol);// 'http'
+    console.log(req.hostname);// 'localhost'
+    console.log(req.ip);      // '::1' or '127.0.0.1'
+    console.log(req.secure);  // false (true for HTTPS)
+    
+    // ========== COOKIES (need cookie-parser) ==========
+    // app.use(cookieParser());
+    console.log(req.cookies);    // All cookies
+    console.log(req.signedCookies); // Signed cookies
+    
+    // ========== CUSTOM PROPERTIES ==========
+    // You can add custom properties (useful with middleware)
+    req.customData = { foo: 'bar' };
+    
+    res.json({ 
+        params: req.params,
+        query: req.query,
+        method: req.method
+    });
+});
+Response Object (res)
+javascript
+
+// ========== SENDING RESPONSES ==========
+
+// Send string
+app.get('/text', (req, res) => {
+    res.send('Hello World');
+});
+
+// Send HTML
+app.get('/html', (req, res) => {
+    res.send('<h1>Hello</h1><p>This is HTML</p>');
+});
+
+// Send JSON
+app.get('/json', (req, res) => {
+    res.json({ 
+        name: 'John',
+        age: 25,
+        hobbies: ['reading', 'coding']
+    });
+});
+
+// Send JSON with status
+app.get('/json-status', (req, res) => {
+    res.status(201).json({ 
+        message: 'Created successfully',
+        id: 123
+    });
+});
+
+// Send file
+app.get('/file', (req, res) => {
+    res.sendFile(__dirname + '/views/index.html');
+});
+
+// Download file
+app.get('/download', (req, res) => {
+    res.download(__dirname + '/files/document.pdf');
+});
+
+// ========== SETTING HEADERS ==========
+app.get('/headers', (req, res) => {
+    res.set('X-Custom-Header', 'MyValue');
+    res.set({
+        'Content-Type': 'application/json',
+        'X-Another-Header': 'AnotherValue'
+    });
+    res.json({ message: 'Check headers' });
+});
+
+// ========== COOKIES ==========
+app.get('/set-cookie', (req, res) => {
+    // Simple cookie
+    res.cookie('name', 'John');
+    
+    // Cookie with options
+    res.cookie('sessionId', 'abc123', {
+        maxAge: 900000,        // Expiry in ms (15 min)
+        httpOnly: true,        // Not accessible via JS
+        secure: true,          // HTTPS only
+        sameSite: 'strict',    // CSRF protection
+        path: '/',             // Cookie path
+        domain: '.example.com' // Cookie domain
+    });
+    
+    // Signed cookie (need cookie-parser with secret)
+    res.cookie('signed', 'value', { signed: true });
+});
+7. Serving Static Files
+javascript
+
+const express = require('express');
+const path = require('path');
+const app = express();
+
+// ========== BASIC STATIC FILE SERVING ==========
+// Serve files from 'public' folder at root URL
+app.use(express.static('public'));
+
+// Now files are accessible:
+// public/index.html → http://localhost:3000/index.html
+// public/css/style.css → http://localhost:3000/css/style.css
+// public/images/logo.png → http://localhost:3000/images/logo.png
+
+// ========== WITH CUSTOM PATH PREFIX ==========
+// Files served at /static/* URL
+app.use('/static', express.static('public'));
+
+// Now: public/index.html → http://localhost:3000/static/index.html
+
+// ========== WITH ABSOLUTE PATH (Recommended) ==========
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ========== MULTIPLE STATIC FOLDERS ==========
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// ========== VIRTUAL PATH MAPPING ==========
+app.use('/media', express.static(path.join(__dirname, 'images')));
+
+// ========== STATIC FILE OPTIONS ==========
+app.use(express.static('public', {
+    maxAge: '1d',           // Cache for 1 day
+    etag: true,             // Enable ETag
+    lastModified: true,     // Use Last-Modified header
+    dotfiles: 'ignore',     // 'allow', 'deny', 'ignore'
+    immutable: false,       // Tell browser file never changes
+    setHeaders: (res, filePath) => {
+        // Custom headers for specific files
+        if (filePath.endsWith('.pdf')) {
+            res.set('Content-Disposition', 'inline');
+        }
+    }
+}));
+
+app.listen(3000);
+Project Structure for Static Files
+text
+
+my-app/
+├── public/
+│   ├── index.html
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── script.js
+│   └── images/
+│       └── logo.png
+├── uploads/
+│   └── profile.jpg
+└── index.js
+8. Template Engines
+Setting Up EJS (Most Popular)
+bash
+
+npm install ejs
+javascript
+
+// index.js
+const express = require('express');
+const app = express();
+
+// Set EJS as template engine
+app.set('view engine', 'ejs');
+
+// Set views folder (default is './views')
+app.set('views', './views');
+
+// Route that renders template
+app.get('/', (req, res) => {
+    res.render('index', { 
+        title: 'Home Page',
+        name: 'John',
+        items: ['Apple', 'Banana', 'Cherry']
+    });
+});
+
+app.listen(3000);
+EJS Templates
+EJS Syntax Quick Reference
+text
+
+┌─────────────────────┬──────────────────────────────────┐
+│       Syntax        │           Description            │
+├─────────────────────┼──────────────────────────────────┤
+│ <%= variable %>     │ Escape HTML (safe for output)    │
+│ <%- variable %>     │ Raw output (no escaping)         │
+│ <% code %>          │ Execute JS code (no output)      │
+│ <%_ code %>         │ Trim whitespace before           │
+│ <% code _%>         │ Trim whitespace after            │
+│ <%- include() %>    │ Include another template         │
+└─────────────────────┴──────────────────────────────────┘
+Other Template Engines
+javascript
+
+// PUG (formerly Jade)
+// npm install pug
+app.set('view engine', 'pug');
+
+// views/index.pug
+// doctype html
+// html
+//   head
+//     title= title
+//   body
+//     h1 Hello #{name}
+
+// Handlebars
+// npm install express-handlebars
+const { engine } = require('express-handlebars');
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+
+// views/index.handlebars
+// <h1>Hello {{name}}</h1>
+9. Error Handling
+Error Handling Patterns
+javascript
+
+const express = require('express');
+const app = express();
+
+// ========== SYNC ERRORS (Auto-caught) ==========
+app.get('/sync-error', (req, res) => {
+    throw new Error('Something went wrong!');
+});
+
+// ========== ASYNC ERRORS (Need to pass to next) ==========
+// WRONG - Error won't be caught
+app.get('/async-wrong', async (req, res) => {
+    const data = await fetchData(); // If this throws, it's unhandled
+    res.json(data);
+});
+
+// CORRECT - Wrap in try-catch
+app.get('/async-correct', async (req, res, next) => {
+    try {
+        const data = await fetchData();
+        res.json(data);
+    } catch (error) {
+        next(error); // Pass to error handler
+    }
+});
+
+// CORRECT - Using a wrapper function
+const asyncHandler = (fn) => (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+app.get('/async-wrapper', asyncHandler(async (req, res) => {
+    const data = await fetchData();
+    res.json(data);
+}));
+
+// ========== 404 HANDLER (Must be last route) ==========
+app.use((req, res) => {
+    res.status(404).json({ 
+        error: 'Not Found',
+        message: `Cannot ${req.method} ${req.url}`
+    });
+});
+
+// ========== GLOBAL ERROR HANDLER (Must have 4 parameters!) ==========
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    
+    res.status(statusCode).json({
+        error: {
+            message: message,
+            // Only include stack in development
+            stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+        }
+    });
+});
+
+// ========== CUSTOM ERROR CLASS ==========
+class AppError extends Error {
+    constructor(message, statusCode) {
+        super(message);
+        this.statusCode = statusCode;
+        this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+        this.isOperational = true;
+        
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+// Usage
+app.get('/custom-error', (req, res, next) => {
+    const error = new AppError('This route is not available', 403);
+    next(error);
+});
+
+app.listen(3000);
+Error Handling Flow
+text
+
+┌────────────────────────────────────────────────────────────┐
+│                  ERROR HANDLING FLOW                        │
+│                                                             │
+│   Route Handler                                             │
+│       │                                                     │
+│       ▼                                                     │
+│   Error Occurs? ──No──→ Send Response                      │
+│       │                                                     │
+│      Yes                                                    │
+│       │                                                     │
+│       ▼                                                     │
+│   next(error)                                              │
+│       │                                                     │
+│       ▼                                                     │
+│   Error Middleware (4 params)                               │
+│       │                                                     │
+│       ▼                                                     │
+│   Send Error Response                                      │
+└────────────────────────────────────────────────────────────┘
+10. REST API Building
+Complete REST API Example
+javascript
+
+const express = require('express');
+const app = express();
+
+// Middleware
+app.use(express.json()); // Parse JSON bodies
+
+// In-memory database (use real DB in production)
+let users = [
+    { id: 1, name: 'John', email: 'john@example.com' },
+    { id: 2, name: 'Jane', email: 'jane@example.com' },
+    { id: 3, name: 'Bob', email: 'bob@example.com' }
+];
+
+let nextId = 4;
+
+// ========== GET ALL USERS ==========
+app.get('/api/users', (req, res) => {
+    // Query parameters for filtering & pagination
+    const { name, page = 1, limit = 10 } = req.query;
+    
+    let result = [...users];
+    
+    // Filter by name
+    if (name) {
+        result = result.filter(u => 
+            u.name.toLowerCase().includes(name.toLowerCase())
+        );
+    }
+    
+    // Pagination
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const paginatedResult = result.slice(startIndex, endIndex);
+    
+    res.json({
+        success: true,
+        count: paginatedResult.length,
+        total: result.length,
+        page: parseInt(page),
+        data: paginatedResult
+    });
+});
+
+// ========== GET SINGLE USER ==========
+app.get('/api/users/:id', (req, res) => {
+    const user = users.find(u => u.id === parseInt(req.params.id));
+    
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            error: `User with id ${req.params.id} not found`
+        });
+    }
+    
+    res.json({
+        success: true,
+        data: user
+    });
+});
+
+// ========== CREATE USER ==========
+app.post('/api/users', (req, res) => {
+    const { name, email } = req.body;
+    
+    // Validation
+    if (!name || !email) {
+        return res.status(400).json({
+});
+REST API Testing with cURL
+bash
+
+# GET all users
+curl http://localhost:3000/api/users
+
+# GET with query params
+curl "http://localhost:3000/api/users?name=John&page=1&limit=5"
+
+# GET single user
+curl http://localhost:3000/api/users/1
+
+# POST - Create user
+curl -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Alice", "email": "alice@example.com"}'
+
+# PUT - Full update
+curl -X PUT http://localhost:3000/api/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John Updated", "email": "john.new@example.com"}'
+
+# PATCH - Partial update
+curl -X PATCH http://localhost:3000/api/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John Patched"}'
+
+# DELETE
+curl -X DELETE http://localhost:3000/api/users/1
+11. Project Structure
+Recommended Structure for Medium Projects
+text
+
+my-express-app/
+├── src/
+│   ├── config/
+│   │   ├── database.js      # Database connection
+│   │   └── config.js        # App configuration
+│   ├── controllers/
+│   │   ├── userController.js
+│   │   └── postController.js
+│   ├── middleware/
+│   │   ├── auth.js
+│   │   ├── errorHandler.js
+│   │   └── validator.js
+│   ├── models/
+│   │   ├── User.js
+│   │   └── Post.js
+│   ├── routes/
+│   │   ├── index.js         # Route aggregator
+│   │   ├── userRoutes.js
+│   │   └── postRoutes.js
+│   ├── utils/
+│   │   ├── logger.js
+│   │   └── helpers.js
+│   └── app.js               # Express app setup
+├── public/
+│   ├── css/
+│   ├── js/
+│   └── images/
+├── views/
+│   ├── partials/
+│   ├── layouts/
+│   └── pages/
+├── tests/
+│   ├── unit/
+│   └── integration/
+├── .env                     # Environment variables
+├── .gitignore
+├── package.json
+└── server.js                # Entry point
+Implementing the Structure
+javascript
+
+// src/config/config.js
+require('dotenv').config();
+
+module.exports = {
+    port: process.env.PORT || 3000,
+    nodeEnv: process.env.NODE_ENV || 'development',
+    jwtSecret: process.env.JWT_SECRET,
+    dbUri: process.env.DB_URI
+};
+javascript
+
+// src/middleware/auth.js
+const jwt = require('jsonwebtoken');
+
+const auth = (req, res, next) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        
+        if (!token) {
+            return res.status(401).json({ error: 'No token provided' });
+        }
+        
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        res.status(401).json({ error: 'Invalid token' });
+    }
+};
+
+module.exports = auth;
+javascript
+
+// src/middleware/errorHandler.js
+const AppError = require('../utils/AppError');
+
+const globalErrorHandler = (err, req, res, next) => {
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || 'error';
+    
+    if (process.env.NODE_ENV === 'development') {
+        res.status(err.statusCode).json({
+            status: err.status,
+            message: err.message,
+            stack: err.stack,
+            err: err
+        });
+    } else {
+        // Production - don't leak error details
+        res.status(err.statusCode).json({
+            status: err.status,
+            message: err.isOperational ? err.message : 'Something went wrong'
+        });
+    }
+};
+
+module.exports = globalErrorHandler;
+javascript
+
+// src/controllers/userController.js
+const User = require('../models/User');
+
+exports.getAllUsers = async (req, res, next) => {
+    try {
+        const users = await User.find();
+        res.json({ success: true, data: users });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json({ success: true, data: user });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.createUser = async (req, res, next) => {
+    try {
+        const user = await User.create(req.body);
+        res.status(201).json({ success: true, data: user });
+    } catch (error) {
+        next(error);
+    }
+};
+javascript
+
+// src/routes/userRoutes.js
+const express = require('express');
+const router = express.Router();
+const userController = require('../controllers/userController');
+const auth = require('../middleware/auth');
+const validate = require('../middleware/validator');
+
+router.get('/', userController.getAllUsers);
+router.get('/:id', userController.getUser);
+router.post('/', validate.createUser, userController.createUser);
+router.put('/:id', auth, userController.updateUser);
+router.delete('/:id', auth, userController.deleteUser);
+
+module.exports = router;
+javascript
+
+// src/routes/index.js
+const express = require('express');
+const router = express.Router();
+
+const userRoutes = require('./userRoutes');
+const postRoutes = require('./postRoutes');
+
+router.use('/users', userRoutes);
+router.use('/posts', postRoutes);
+
+module.exports = router;
+javascript
+
+// src/app.js
+const express = require('express');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const routes = require('./routes');
+const globalErrorHandler = require('./middleware/errorHandler');
+
+const app = express();
+
+// Middleware
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static('public'));
+
+// Routes
+app.use('/api', routes);
+
+// 404 handler
+app.all('*', (req, res) => {
+    res.status(404).json({ error: `Cannot find ${req.method} ${req.url}` });
+});
+
+// Error handler
+app.use(globalErrorHandler);
+
+module.exports = app;
+javascript
+
+// server.js
+const app = require('./src/app');
+const config = require('./src/config/config');
+
+app.listen(config.port, () => {
+    console.log(`Server running in ${config.nodeEnv} mode on port ${config.port}`);
+});
+12. Best Practices
+1. Environment Configuration
+javascript
+
+// .env file
+NODE_ENV=development
+PORT=3000
+JWT_SECRET=your-secret-key
+DB_URI=mongodb://localhost:27017/mydb
+
+// Use dotenv
+require('dotenv').config();
+2. Security Middleware
+javascript
+
+const helmet = require('helmet');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const xss = require('xss-clean');
+
+// Security headers
+app.use(helmet());
+
+// CORS
+app.use(cors({
+    origin: process.env.ALLOWED_ORIGINS?.split(','),
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // 100 requests per window
+    message: 'Too many requests from this IP'
+});
+app.use('/api', limiter);
+
+// Prevent HTTP Parameter Pollution
+app.use(hpp());
+
+// Sanitize user input (prevent XSS)
+app.use(xss());
+3. Validation with Joi
+javascript
+
+const Joi = require('joi');
+
+const userSchema = Joi.object({
+    name: Joi.string().min(3).max(50).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).required(),
+    role: Joi.string().valid('user', 'admin').default('user')
+});
+
+const validateUser = (req, res, next) => {
+    const { error } = userSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({
+            error: error.details[0].message
+        });
+    }
+    next();
+};
+
+app.post('/users', validateUser, createUser);
+4. Logging
+javascript
+
+const winston = require('winston');
+const { combine, timestamp, printf, colorize } = winston.format;
+
+const logFormat = printf(({ level, message, timestamp }) => {
+    return `${timestamp} [${level}]: ${message}`;
+});
+
+const logger = winston.createLogger({
+    level: 'info',
+    format: combine(
+        timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        logFormat
+    ),
+    transports: [
+        new winston.transports.Console({
+            format: combine(colorize(), logFormat)
+        }),
+        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'logs/combined.log' })
+    ]
+});
+
+// Use in routes
+app.get('/users', async (req, res, next) => {
+    logger.info('Fetching all users');
+    try {
+        const users = await User.find();
+        logger.info(`Found ${users.length} users`);
+        res.json(users);
+    } catch (error) {
+        logger.error(`Error fetching users: ${error.message}`);
+        next(error);
+    }
+});
+5. Async Handler Utility
+javascript
+
+// utils/catchAsync.js
+const catchAsync = (fn) => {
+    return (req, res, next) => {
+        fn(req, res, next).catch(next);
+    };
+};
+
+// Usage - much cleaner!
+app.get('/users', catchAsync(async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+}));
+6. API Response Helpers
+javascript
+
+// utils/response.js
+class ApiResponse {
+    static success(res, data, statusCode = 200) {
+        return res.status(statusCode).json({
+            success: true,
+            data
+        });
+    }
+
+    static error(res, message, statusCode = 400) {
+        return res.status(statusCode).json({
+            success: false,
+            error: message
+        });
+    }
+
+    static created(res, data) {
+        return res.status(201).json({
+            success: true,
+            data
+        });
+    }
+
+    static paginated(res, data, page, limit, total) {
+        return res.json({
+            success: true,
+            data,
+            pagination: {
+                page: parseInt(page),
+                limit: parseInt(limit),
+                total,
+                pages: Math.ceil(total / limit)
+            }
+        });
+    }
+}
+
+// Usage
+app.get('/users', async (req, res) => {
+    const users = await User.find();
+    ApiResponse.success(res, users);
+});
+Quick Reference Cheat Sheet
+text
+
+┌─────────────────────────────────────────────────────────────────┐
+│                    EXPRESS.JS CHEAT SHEET                       │
+├─────────────────────────────────────────────────────────────────┤
+│ SETUP                                                           │
+│   const express = require('express');                           │
+│   const app = express();                                        │
+│   app.listen(3000);                                             │
+├─────────────────────────────────────────────────────────────────┤
+│ MIDDLEWARE (Order matters!)                                     │
+│   app.use(express.json())           # Parse JSON                │
+│   app.use(express.urlencoded())     # Parse URL-encoded         │
+│   app.use(express.static('pub'))    # Static files              │
+│   app.use(middleware)               # Custom middleware         │
+├─────────────────────────────────────────────────────────────────┤
+│ ROUTING                                                         │
+│   app.get/post/put/patch/delete(path, handler)                  │
+│   app.route(path).get().post().put()                            │
+│   req.params   → /users/:id                                    │
+│   req.query    → /users?name=John                              │
+│   req.body     → { name: "John" }                              │
+├─────────────────────────────────────────────────────────────────┤
+│ RESPONSE                                                        │
+│   res.send()        # Send string/HTML                         │
+│   res.json()        # Send JSON                                │
+│   res.status()      # Set status code                          │
+│   res.redirect()    # Redirect                                 │
+│   res.render()      # Render template                          │
+│   res.sendFile()    # Send file                                │
+├─────────────────────────────────────────────────────────────────┤
+│ ERROR HANDLING                                                  │
+│   next(error)                    # Pass error                  │
+│   app.use((err, req, res, next)) # 4 params required!          │
+├─────────────────────────────────────────────────────────────────┤
+│ ROUTER (Modular routes)                                         │
+│   const router = express.Router();                             │
+│   router.get('/', handler);                                    │
+│   app.use('/prefix', router);                                  │
+└─────────────────────────────────────────────────────────────────┘

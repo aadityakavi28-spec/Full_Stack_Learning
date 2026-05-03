@@ -1,0 +1,1817 @@
+Complete Guide: Backend Development & Node.js
+PART 1: Backend Development (Overview)
+What is Backend Development?
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    WEB APPLICATION ARCHITECTURE                      │
+│                                                                      │
+│  ┌──────────────┐         ┌──────────────┐         ┌──────────────┐ │
+│  │   FRONTEND   │         │   BACKEND    │         │   DATABASE   │ │
+│  │              │         │              │         │              │ │
+│  │  • HTML/CSS  │ ──API──→│  • Server    │ ──Query─→│  • Store     │ │
+│  │  • JavaScript│         │  • Logic     │         │    Data      │ │
+│  │  • React/Vue │←──JSON──│  • Security  │←──Data───│  • Retrieve  │ │
+│  │  • UI/UX     │         │  • Auth      │         │    Data      │ │
+│  └──────────────┘         └──────────────┘         └──────────────┘ │
+│        │                         │                        │          │
+│        │                         │                        │          │
+│        └─────────────────────────┴────────────────────────┘          │
+│                        INTERNET                                     │
+└─────────────────────────────────────────────────────────────────────┘
+Backend Responsibilities
+text
+
+┌─────────────────────────────────────────────────────────────┐
+│                  WHAT BACKEND DOES                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  1. BUSINESS LOGIC                                          │
+│     └── Process data, apply rules, calculations             │
+│                                                              │
+│  2. DATA MANAGEMENT                                         │
+│     └── Store, retrieve, update, delete data                │
+│                                                              │
+│  3. API (Application Programming Interface)                 │
+│     └── Endpoints for frontend to communicate               │
+│                                                              │
+│  4. AUTHENTICATION & AUTHORIZATION                          │
+│     └── Verify identity, control access                     │
+│                                                              │
+│  5. SECURITY                                                │
+│     └── Protect data, prevent attacks                       │
+│                                                              │
+│  6. PERFORMANCE                                             │
+│     └── Handle many requests efficiently                    │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+Backend Technologies
+text
+
+┌─────────────────────────────────────────────────────────────────┐
+│                    BACKEND TECHNOLOGIES                          │
+├──────────────┬──────────────────────────────────────────────────┤
+│  CATEGORY    │           OPTIONS                                │
+├──────────────┼──────────────────────────────────────────────────┤
+│ Languages    │ Node.js, Python, Java, Go, PHP, C#, Ruby        │
+├──────────────┼──────────────────────────────────────────────────┤
+│ Frameworks   │ Express, Django, Spring, Gin, Laravel            │
+├──────────────┼──────────────────────────────────────────────────┤
+│ Databases    │ MongoDB, PostgreSQL, MySQL, Redis               │
+├──────────────┼──────────────────────────────────────────────────┤
+│ API Styles   │ REST, GraphQL, gRPC, WebSocket                  │
+├──────────────┼──────────────────────────────────────────────────┤
+│ Hosting      │ AWS, GCP, Azure, Railway, Vercel                │
+└──────────────┴──────────────────────────────────────────────────┘
+API Types
+text
+
+┌─────────────────────────────────────────────────────────────────┐
+│                        API TYPES                                 │
+├──────────────┬──────────────────────────────────────────────────┤
+│              │                                                   │
+│   REST       │  • Most common                                   │
+│              │  • Uses HTTP methods (GET, POST, PUT, DELETE)    │
+│              │  • Resource-based URLs (/users, /posts)          │
+│              │  • Stateful (uses cookies/sessions) or JWT       │
+│              │                                                   │
+├──────────────┼──────────────────────────────────────────────────┤
+│              │                                                   │
+│  GraphQL     │  • Query language for APIs                       │
+│              │  • Client asks for exact data needed             │
+│              │  • Single endpoint                                │
+│              │  • Reduces over-fetching                         │
+│              │                                                   │
+├──────────────┼──────────────────────────────────────────────────┤
+│              │                                                   │
+│  WebSocket   │  • Real-time, bidirectional communication        │
+│              │  • Persistent connection                          │
+│              │  • Chat apps, live updates                       │
+│              │                                                   │
+├──────────────┼──────────────────────────────────────────────────┤
+│              │                                                   │
+│   gRPC       │  • Google's RPC framework                        │
+│              │  • Uses Protocol Buffers                          │
+│              │  • Very fast, binary format                      │
+│              │  • Microservices communication                   │
+│              │                                                   │
+└──────────────┴──────────────────────────────────────────────────┘
+HTTP Protocol Basics
+text
+
+┌─────────────────────────────────────────────────────────────────┐
+│                    HTTP REQUEST STRUCTURE                        │
+│                                                                  │
+│  POST /api/users HTTP/1.1          ← Request Line               │
+│  Host: localhost:3000              ← Headers                    │
+│  Content-Type: application/json                                 │
+│  Authorization: Bearer token123                                 │
+│                                                                  │
+│  { "name": "John", "email": "j@e.com" }  ← Body               │
+│                                                                  │
+├─────────────────────────────────────────────────────────────────┤
+│                    HTTP RESPONSE STRUCTURE                       │
+│                                                                  │
+│  HTTP/1.1 200 OK                   ← Status Line                │
+│  Content-Type: application/json    ← Headers                    │
+│  Content-Length: 45                                             │
+│                                                                  │
+│  { "id": 1, "name": "John" }     ← Body                       │
+│                                                                  │
+├─────────────────────────────────────────────────────────────────┤
+│                    COMMON HTTP METHODS                           │
+│                                                                  │
+│  GET    → Read/Retrieve data        (Safe, Idempotent)          │
+│  POST   → Create new resource       (Not safe, Not idempotent)  │
+│  PUT    → Replace entire resource   (Not safe, Idempotent)      │
+│  PATCH  → Partial update            (Not safe, Not idempotent)  │
+│  DELETE → Remove resource           (Not safe, Idempotent)      │
+│                                                                  │
+├─────────────────────────────────────────────────────────────────┤
+│                    COMMON STATUS CODES                           │
+│                                                                  │
+│  2xx Success:    200 OK, 201 Created, 204 No Content           │
+│  3xx Redirect:   301 Moved Permanently, 302 Found               │
+│  4xx Client Err: 400 Bad Request, 401 Unauthorized,             │
+│                  403 Forbidden, 404 Not Found,                  │
+│                  409 Conflict, 422 Unprocessable                 │
+│  5xx Server Err: 500 Internal Server Error,                     │
+│                  502 Bad Gateway, 503 Service Unavailable       │
+└─────────────────────────────────────────────────────────────────┘
+PART 2: Node.js - Complete Deep Dive
+What is Node.js?
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                         NODE.JS                                    │
+│                                                                      │
+│  Node.js is a JavaScript runtime built on Chrome's V8 JavaScript    │
+│  engine that allows you to run JavaScript OUTSIDE the browser.      │
+│                                                                      │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │                    BEFORE NODE.JS                             │  │
+│  │  JavaScript = Browser ONLY                                    │  │
+│  │  • Could only run in browsers                                 │  │
+│  │  • Could not access file system                                │  │
+│  │  • Could not connect to databases                              │  │
+│  │  • Could not create servers                                    │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│                                                                      │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │                    AFTER NODE.JS                              │  │
+│  │  JavaScript = Browser + Server + Desktop + Mobile + IoT       │  │
+│  │  • Build web servers (Express, Fastify)                       │  │
+│  │  • Build CLI tools                                            │  │
+│  │  • Build desktop apps (Electron)                              │  │
+│  │  • Build mobile apps (React Native)                           │  │
+│  │  • Build IoT applications                                     │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+How Node.js Works Internally
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    NODE.JS INTERNAL ARCHITECTURE                     │
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    YOUR JavaScript CODE                      │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                              │                                       │
+│                              ▼                                       │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    V8 ENGINE                                 │   │
+│  │  ┌───────────────┐  ┌───────────────┐  ┌───────────────┐   │   │
+│  │  │    Parser     │→ │   Compiler    │→ │    Machine    │   │   │
+│  │  │ (AST Builder) │  │ (Optimizing)  │  │    Code       │   │   │
+│  │  └───────────────┘  └───────────────┘  └───────────────┘   │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                              │                                       │
+│                              ▼                                       │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                 NODE.JS BINDINGS (C++)                       │   │
+│  │  • Connects V8 to operating system                          │   │
+│  │  • Provides access to File System, Network, etc.            │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                              │                                       │
+│                              ▼                                       │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    LIBUV (Event Loop)                        │   │
+│  │  • Manages async operations                                 │   │
+│  │  • Thread pool for heavy operations                         │   │
+│  │  • Handles I/O operations                                   │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                              │                                       │
+│                              ▼                                       │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                 OPERATING SYSTEM                             │   │
+│  │  • File System    • Network    • Process Management         │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+V8 Engine Deep Dive
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                        V8 ENGINE WORKFLOW                           │
+│                                                                      │
+│   JavaScript Code                                                   │
+│         │                                                            │
+│         ▼                                                            │
+│  ┌─────────────┐                                                     │
+│  │   PARSER    │  Converts code to AST (Abstract Syntax Tree)       │
+│  └─────────────┘                                                     │
+│         │                                                            │
+│         ▼                                                            │
+│  ┌─────────────┐                                                     │
+│  │  AST (Tree) │  Tree representation of code structure             │
+│  └─────────────┘                                                     │
+│         │                                                            │
+│         ├──────────────────────┐                                     │
+│         ▼                      ▼                                     │
+│  ┌─────────────┐      ┌─────────────┐                               │
+│  │  INTERPRETER│      │   PROFILER  │                               │
+│  │  (Ignition) │      │  (Monitors) │                               │
+│  └─────────────┘      └─────────────┘                               │
+│         │                      │                                     │
+│         ▼                      │                                     │
+│  ┌─────────────┐               │                                     │
+│  │Bytecode     │───────────────┘                                     │
+│  │(Fast but    │  Profiler identifies "hot" functions                │
+│  │ unoptimized)│  (functions called many times)                     │
+│  └─────────────┘                                                     │
+│         │                                                            │
+│         ▼ (if "hot")                                                 │
+│  ┌─────────────┐                                                     │
+│  │  OPTIMIZING │  Compiles bytecode to optimized machine code       │
+│  │  COMPILER   │  (TurboFan)                                        │
+│  └─────────────┘                                                     │
+│         │                                                            │
+│         ▼                                                            │
+│  ┌─────────────┐                                                     │
+│  │Machine Code │  Extremely fast execution                          │
+│  │(Native CPU) │                                                     │
+│  └─────────────┘                                                     │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+The Event Loop (Most Important Concept)
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                       THE EVENT LOOP                                │
+│                                                                      │
+│  The Event Loop is the mechanism that allows Node.js to perform     │
+│  non-blocking I/O operations despite JavaScript being single-       │
+│  threaded.                                                          │
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                                                              │   │
+│  │    ┌──────────────────────────────────────────────────┐     │   │
+│  │    │                                                  │     │   │
+│  │    │            ┌─────────────────┐                   │     │   │
+│  │    │            │   TIMERS        │                   │     │   │
+│  │    │            │  setTimeout()   │                   │     │   │
+│  │    │            │  setInterval()  │                   │     │   │
+│  │    │            └────────┬────────┘                   │     │   │
+│  │    │                     │                            │     │   │
+│  │    │                     ▼                            │     │   │
+│  │    │            ┌─────────────────┐                   │     │   │
+│  │    │            │  PENDING        │                   │     │   │
+│  │    │            │  CALLBACKS      │                   │     │   │
+│  │    │            └────────┬────────┘                   │     │   │
+│  │    │                     │                            │     │   │
+│  │    │                     ▼                            │     │   │
+│  │    │            ┌─────────────────┐                   │     │   │
+│  │    │            │    IDLE         │                   │     │   │
+│  │    │            │  PREPARE        │                   │     │   │
+│  │    │            └────────┬────────┘                   │     │   │
+│  │    │                     │                            │     │   │
+│  │    │                     ▼                            │     │   │
+│  │    │            ┌─────────────────┐                   │     │   │
+│  │    │            │    POLL         │◄──── Main phase   │     │   │
+│  │    │            │ (I/O callbacks) │                   │     │   │
+│  │    │            └────────┬────────┘                   │     │   │
+│  │    │                     │                            │     │   │
+│  │    │                     ▼                            │     │   │
+│  │    │            ┌─────────────────┐                   │     │   │
+│  │    │            │    CHECK        │                   │     │   │
+│  │    │            │ setImmediate()  │                   │     │   │
+│  │    │            └────────┬────────┘                   │     │   │
+│  │    │                     │                            │     │   │
+│  │    │                     ▼                            │     │   │
+│  │    │            ┌─────────────────┐                   │     │   │
+│  │    │            │  CLOSE          │                   │     │   │
+│  │    │            │  CALLBACKS      │                   │     │   │
+│  │    │            └─────────────────┘                   │     │   │
+│  │    │                                                  │     │   │
+│  │    └──────────────────────────────────────────────────┘     │   │
+│  │                                                              │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+Event Loop Phases Explained
+javascript
+
+// ========== PHASE 1: TIMERS ==========
+// Executes callbacks from setTimeout() and setInterval()
+console.log('1. Start');
+
+setTimeout(() => {
+    console.log('5. Timer callback (0ms delay but runs after sync code)');
+}, 0);
+
+setTimeout(() => {
+    console.log('6. Timer callback (100ms delay)');
+}, 100);
+
+// ========== PHASE 2: PENDING CALLBACKS ==========
+// Executes I/O callbacks deferred to the next loop iteration
+// (rarely used directly)
+
+// ========== PHASE 3: IDLE, PREPARE ==========
+// Internal use only
+
+// ========== PHASE 4: POLL ==========
+// Retrieve new I/O events; execute I/O related callbacks
+const fs = require('fs');
+
+fs.readFile(__filename, () => {
+    console.log('7. File read callback');
+});
+
+// ========== PHASE 5: CHECK ==========
+// Executes setImmediate() callbacks
+setImmediate(() => {
+    console.log('4. Immediate callback');
+});
+
+// ========== PHASE 6: CLOSE CALLBACKS ==========
+// Executes close event callbacks (e.g., socket.on('close'))
+
+// ========== SYNCHRONOUS CODE RUNS FIRST ==========
+console.log('2. Synchronous code');
+console.log('3. More synchronous code');
+
+// Output order:
+// 1. Start
+// 2. Synchronous code
+// 3. More synchronous code
+// 4. Immediate callback
+// 5. Timer callback (0ms delay but runs after sync code)
+// 6. Timer callback (100ms delay)
+// 7. File read callback
+setTimeout vs setImmediate
+javascript
+
+// When both are in the main module - ORDER IS NOT GUARANTEED
+setTimeout(() => console.log('timeout'), 0);
+setImmediate(() => console.log('immediate'));
+// Could output either:
+// "timeout" then "immediate"
+// OR
+// "immediate" then "timeout"
+
+// When in I/O callback - setImmediate ALWAYS runs first
+fs.readFile(__filename, () => {
+    setTimeout(() => console.log('timeout'), 0);
+    setImmediate(() => console.log('immediate'));
+});
+// Always outputs:
+// "immediate"
+// "timeout"
+Process.nextTick()
+javascript
+
+// process.nextTick() is NOT part of the event loop
+// It executes AFTER current operation, BEFORE next event loop phase
+
+console.log('1. Start');
+
+process.nextTick(() => {
+    console.log('3. nextTick callback');
+});
+
+Promise.resolve().then(() => {
+    console.log('4. Promise callback');
+});
+
+console.log('2. End');
+
+// Output:
+// 1. Start
+// 2. End
+// 3. nextTick callback  ← Runs before Promise!
+// 4. Promise callback
+Complete Execution Order
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    EXECUTION PRIORITY (Highest to Lowest)           │
+│                                                                      │
+│  1. Synchronous Code                                                │
+│  2. process.nextTick()                                              │
+│  3. Microtasks (Promises)                                           │
+│  4. Timers (setTimeout, setInterval)                                │
+│  5. I/O Callbacks                                                   │
+│  6. setImmediate()                                                  │
+│  7. Close Callbacks                                                 │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+javascript
+
+// Example showing complete order
+console.log('1 - Sync');
+
+setTimeout(() => console.log('5 - Timeout'), 0);
+
+setImmediate(() => console.log('6 - Immediate'));
+
+process.nextTick(() => console.log('2 - nextTick'));
+
+Promise.resolve().then(() => console.log('3 - Promise'));
+
+fs.readFile(__filename, () => {
+    console.log('7 - I/O Callback');
+    process.nextTick(() => console.log('8 - nextTick inside I/O'));
+    Promise.resolve().then(() => console.log('9 - Promise inside I/O'));
+});
+
+console.log('4 - Sync');
+
+// Output:
+// 1 - Sync
+// 2 - nextTick
+// 3 - Promise
+// 4 - Sync
+// 5 - Timeout (or 6 first, not guaranteed)
+// 6 - Immediate (or 5 first, not guaranteed)
+// 7 - I/O Callback
+// 8 - nextTick inside I/O
+// 9 - Promise inside I/O
+Asynchronous Programming in Node.js
+Callbacks (Old Way)
+javascript
+
+const fs = require('fs');
+
+// Callback Hell (Pyramid of Doom)
+fs.readFile('file1.txt', (err, data1) => {
+    if (err) return console.error(err);
+    
+    fs.readFile('file2.txt', (err, data2) => {
+        if (err) return console.error(err);
+        
+        fs.readFile('file3.txt', (err, data3) => {
+            if (err) return console.error(err);
+            
+            console.log(data1.toString());
+            console.log(data2.toString());
+            console.log(data3.toString());
+        });
+    });
+});
+Promises (Better Way)
+javascript
+
+const fs = require('fs').promises; // Promise-based API
+
+// Promise chaining
+fs.readFile('file1.txt')
+    .then(data1 => {
+        console.log(data1.toString());
+        return fs.readFile('file2.txt');
+    })
+    .then(data2 => {
+        console.log(data2.toString());
+        return fs.readFile('file3.txt');
+    })
+    .then(data3 => {
+        console.log(data3.toString());
+    })
+    .catch(err => {
+        console.error(err);
+    });
+
+// Creating custom promises
+function delay(ms) {
+    return new Promise((resolve, reject) => {
+        if (ms < 0) {
+            reject(new Error('Delay cannot be negative'));
+        } else {
+            setTimeout(resolve, ms);
+        }
+    });
+}
+
+delay(1000)
+    .then(() => console.log('After 1 second'))
+    .catch(err => console.error(err));
+Async/Await (Modern Way - Recommended)
+javascript
+
+const fs = require('fs').promises;
+
+async function readFiles() {
+    try {
+        const data1 = await fs.readFile('file1.txt');
+        const data2 = await fs.readFile('file2.txt');
+        const data3 = await fs.readFile('file3.txt');
+        
+        console.log(data1.toString());
+        console.log(data2.toString());
+        console.log(data3.toString());
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+readFiles();
+
+// Parallel execution with Promise.all
+async function readFilesParallel() {
+    try {
+        // All files read simultaneously (faster!)
+        const [data1, data2, data3] = await Promise.all([
+            fs.readFile('file1.txt'),
+            fs.readFile('file2.txt'),
+            fs.readFile('file3.txt')
+        ]);
+        
+        console.log(data1.toString());
+        console.log(data2.toString());
+        console.log(data3.toString());
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// Promise.allSettled - never rejects, returns all results
+async function readFilesSettled() {
+    const results = await Promise.allSettled([
+        fs.readFile('file1.txt'),
+        fs.readFile('nonexistent.txt'),
+        fs.readFile('file3.txt')
+    ]);
+    
+    results.forEach((result, index) => {
+        if (result.status === 'fulfilled') {
+            console.log(`File ${index}: Success`);
+        } else {
+            console.log(`File ${index}: Failed - ${result.reason.message}`);
+        }
+    });
+}
+
+// Promise.race - returns first to settle
+async function firstToFinish() {
+    const result = await Promise.race([
+        delay(1000).then(() => 'Slow'),
+        delay(500).then(() => 'Fast'),
+        delay(2000).then(() => 'Slowest')
+    ]);
+    console.log(result); // 'Fast'
+}
+
+// Promise.any - returns first to fulfill (ignores rejections)
+async function firstSuccessful() {
+    const result = await Promise.any([
+        Promise.reject(new Error('Failed 1')),
+        Promise.reject(new Error('Failed 2')),
+        Promise.resolve('Success!')
+    ]);
+    console.log(result); // 'Success!'
+}
+Node.js Module System
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    MODULE SYSTEM TYPES                               │
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    COMMONJS (Default in Node.js)            │   │
+│  │                                                              │   │
+│  │  • Uses require() and module.exports                        │   │
+│  │  • Synchronous loading                                       │   │
+│  │  • Works in Node.js                                          │   │
+│  │                                                              │   │
+│  │  const module = require('./file');                           │   │
+│  │  module.exports = { something };                             │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    ES MODULES (Modern)                       │   │
+│  │                                                              │   │
+│  │  • Uses import and export                                    │   │
+│  │  • Asynchronous loading                                      │   │
+│  │  • Works in browsers AND Node.js                             │   │
+│  │  • Use "type": "module" in package.json                      │   │
+│  │                                                              │   │
+│  │  import { something } from './file.js';                      │   │
+│  │  export const something = 'value';                           │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+CommonJS Modules
+javascript
+
+// ========== math.js (Exporting) ==========
+
+// Named exports
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+// Export as object
+module.exports = {
+    add,
+    subtract
+};
+
+// OR alternative syntax
+exports.add = add;
+exports.subtract = subtract;
+
+// Single export
+// module.exports = function(a, b) { return a + b; };
+
+// Class export
+// module.exports = class Calculator { ... };
+javascript
+
+// ========== app.js (Importing) ==========
+
+// Import entire module
+const math = require('./math');
+console.log(math.add(2, 3));      // 5
+console.log(math.subtract(5, 2)); // 3
+
+// Destructured import
+const { add, subtract } = require('./math');
+console.log(add(2, 3));           // 5
+
+// Import built-in modules
+const fs = require('fs');
+const path = require('path');
+const http = require('http');
+
+// Import npm packages
+const express = require('express');
+ES Modules
+json
+
+// package.json - Add this line
+{
+    "type": "module"
+}
+javascript
+
+// ========== math.js (Exporting) ==========
+
+// Named exports
+export function add(a, b) {
+    return a + b;
+}
+
+export function subtract(a, b) {
+    return a - b;
+}
+
+export const PI = 3.14159;
+
+// Default export
+export default class Calculator {
+    add(a, b) { return a + b; }
+}
+
+// Named export of class
+export class Logger {
+    log(msg) { console.log(msg); }
+}
+javascript
+
+// ========== app.js (Importing) ==========
+
+// Import named exports
+import { add, subtract, PI } from './math.js';
+console.log(add(2, 3));
+
+// Import with alias
+import { add as sum, subtract as diff } from './math.js';
+
+// Import all as namespace
+import * as math from './math.js';
+console.log(math.add(2, 3));
+
+// Import default export
+import Calculator from './math.js';
+
+// Mix default and named
+import Calculator, { add, subtract } from './math.js';
+Module Resolution
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    MODULE RESOLUTION ORDER                           │
+│                                                                      │
+│  require('./module')                                                 │
+│      │                                                               │
+│      ├── 1. Check if it's a built-in module (fs, path, etc.)       │
+│      │                                                               │
+│      ├── 2. Check if it's a relative/absolute path                  │
+│      │       ├── Look for ./module.js                               │
+│      │       ├── Look for ./module.json                             │
+│      │       ├── Look for ./module/index.js                         │
+│      │       └── Look for ./module/node_modules/...                 │
+│      │                                                               │
+│      └── 3. Check node_modules folder                               │
+│              ├── ./node_modules/module                              │
+│              ├── ../node_modules/module                             │
+│              └── Continue up directory tree                         │
+│                                                                      │
+│  File extensions:                                                   │
+│  • .js - JavaScript                                                 │
+│  • .json - JSON file                                                │
+│  • .node - Native addon                                             │
+│                                                                      │
+│  Directories:                                                       │
+│  • Looks for package.json → "main" field                           │
+│  • Falls back to index.js                                          │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+Built-in Modules
+fs (File System)
+javascript
+
+const fs = require('fs');
+const fsPromises = require('fs/promises');
+
+// ========== READING FILES ==========
+// Synchronous (blocks the thread - avoid in production)
+try {
+    const data = fs.readFileSync('file.txt', 'utf8');
+    console.log(data);
+} catch (err) {
+    console.error(err);
+}
+
+// Asynchronous with callback
+fs.readFile('file.txt', 'utf8', (err, data) => {
+    if (err) throw err;
+    console.log(data);
+});
+
+// Asynchronous with promises (recommended)
+async function readFile() {
+    try {
+        const data = await fsPromises.readFile('file.txt', 'utf8');
+        console.log(data);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// ========== WRITING FILES ==========
+// Synchronous
+fs.writeFileSync('output.txt', 'Hello World');
+
+// Asynchronous
+fs.writeFile('output.txt', 'Hello World', (err) => {
+    if (err) throw err;
+    console.log('File written!');
+});
+
+// Append to file
+fs.appendFile('output.txt', '\nNew line', (err) => {
+    if (err) throw err;
+});
+
+// Promises
+await fsPromises.writeFile('output.txt', 'Hello World');
+
+// ========== FILE INFO ==========
+const stats = fs.statSync('file.txt');
+console.log(stats.isFile());      // true
+console.log(stats.isDirectory()); // false
+console.log(stats.size);          // File size in bytes
+console.log(stats.createdAt);     // Creation date
+console.log(stats.modifiedAt);    // Modified date
+
+// ========== DIRECTORY OPERATIONS ==========
+// Create directory
+fs.mkdirSync('new-folder');
+fs.mkdirSync('nested/folder', { recursive: true }); // Creates parent dirs
+
+// Read directory
+const files = fs.readdirSync('.');
+console.log(files); // Array of file/folder names
+
+// With file types
+const filesWithTypes = fs.readdirSync('.', { withFileTypes: true });
+filesWithTypes.forEach(item => {
+    console.log(item.name, item.isDirectory() ? '[DIR]' : '[FILE]');
+});
+
+// Delete directory (must be empty)
+fs.rmdirSync('empty-folder');
+fs.rmSync('folder', { recursive: true }); // Delete with contents
+
+// Delete file
+fs.unlinkSync('file.txt');
+
+// ========== FILE EXISTS CHECK ==========
+fs.existsSync('file.txt'); // true or false
+
+// ========== RENAME/MOVE ==========
+fs.renameSync('old.txt', 'new.txt');
+
+// ========== WATCH FILE ==========
+fs.watch('file.txt', (eventType, filename) => {
+    console.log(`${eventType}: ${filename}`);
+});
+path (Path Handling)
+javascript
+
+const path = require('path');
+
+// Join paths (handles / differences between OS)
+const fullPath = path.join('folder', 'subfolder', 'file.txt');
+// Windows: 'folder\\subfolder\\file.txt'
+// Linux/Mac: 'folder/subfolder/file.txt'
+
+// Resolve to absolute path
+const absolute = path.resolve('folder', 'file.txt');
+// '/home/user/project/folder/file.txt'
+
+// Get directory name
+path.dirname('/home/user/file.txt');  // '/home/user'
+
+// Get file name with extension
+path.basename('/home/user/file.txt'); // 'file.txt'
+
+// Get file extension
+path.extname('/home/user/file.txt');  // '.txt'
+
+// Get file name without extension
+path.basename('/home/user/file.txt', path.extname('/home/user/file.txt')); // 'file'
+
+// Parse path into parts
+path.parse('/home/user/file.txt');
+// {
+//   root: '/',
+//   dir: '/home/user',
+//   base: 'file.txt',
+//   ext: '.txt',
+//   name: 'file'
+// }
+
+// Check if path is absolute
+path.isAbsolute('/home/user'); // true
+path.isAbsolute('folder');     // false
+
+// Normalize path (resolve .. and .)
+path.normalize('/home/user/../other/./file.txt'); // '/home/other/file.txt'
+
+// __filename and __dirname (only in CommonJS)
+console.log(__filename); // Current file's full path
+console.log(__dirname);  // Current file's directory
+
+// ES Modules alternative
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+http (HTTP Server)
+javascript
+
+const http = require('http');
+
+// Create server
+const server = http.createServer((req, res) => {
+    // Request info
+    console.log(req.method);  // GET, POST, etc.
+    console.log(req.url);     // /path?query=value
+    console.log(req.headers); // Object of headers
+    
+    // Parse URL
+    const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+    console.log(parsedUrl.pathname); // /path
+    console.log(parsedUrl.searchParams.get('key')); // query param
+    
+    // Set response headers
+    res.writeHead(200, {
+        'Content-Type': 'application/json',
+        'X-Custom-Header': 'value'
+    });
+    
+    // Send response
+    res.end(JSON.stringify({ message: 'Hello' }));
+});
+
+// Start server
+server.listen(3000, () => {
+    console.log('Server running on port 3000');
+});
+
+// Server events
+server.on('error', (err) => {
+    console.error('Server error:', err);
+});
+
+// ========== SIMPLE ROUTER ==========
+const server2 = http.createServer((req, res) => {
+    if (req.url === '/' && req.method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end('<h1>Home</h1>');
+    } else if (req.url === '/api/users' && req.method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify([{ id: 1, name: 'John' }]));
+    } else if (req.url === '/api/users' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => body += chunk);
+        req.on('end', () => {
+            const user = JSON.parse(body);
+            res.writeHead(201, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(user));
+        });
+    } else {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not found' }));
+    }
+});
+https (HTTPS Server)
+javascript
+
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+    key: fs.readFileSync('private-key.pem'),
+    cert: fs.readFileSync('certificate.pem')
+};
+
+const server = https.createServer(options, (req, res) => {
+    res.writeHead(200);
+    res.end('Secure connection!');
+});
+
+server.listen(443);
+url (URL Parsing)
+javascript
+
+const url = require('url');
+
+// Parse URL (old way)
+const parsed = url.parse('https://example.com/path?name=John&age=25#section');
+console.log(parsed.protocol); // 'https:'
+console.log(parsed.hostname); // 'example.com'
+console.log(parsed.pathname); // '/path'
+console.log(parsed.query);    // 'name=John&age=25'
+console.log(parsed.hash);     // '#section'
+
+// Parse query string
+const query = url.parse('https://example.com?name=John&age=25', true).query;
+console.log(query); // { name: 'John', age: '25' }
+
+// Modern way (URL API)
+const myUrl = new URL('https://example.com/path?name=John&age=25');
+console.log(myUrl.searchParams.get('name')); // 'John'
+console.log(myUrl.searchParams.get('age'));  // '25'
+console.log(myUrl.searchParams.has('name')); // true
+
+// Build URL
+const builtUrl = new URL('/api/users', 'https://example.com');
+builtUrl.searchParams.set('page', '1');
+builtUrl.searchParams.set('limit', '10');
+console.log(builtUrl.toString()); // 'https://example.com/api/users?page=1&limit=10'
+querystring (Query Parsing)
+javascript
+
+const querystring = require('querystring');
+
+// Parse query string
+const parsed = querystring.parse('name=John&age=25&hobby=coding&hobby=reading');
+console.log(parsed);
+// { name: 'John', age: '25', hobby: ['coding', 'reading'] }
+
+// Stringify object
+const str = querystring.stringify({ name: 'John', age: '25' });
+console.log(str); // 'name=John&age=25'
+os (Operating System Info)
+javascript
+
+const os = require('os');
+
+console.log(os.platform());     // 'win32', 'linux', 'darwin'
+console.log(os.type());         // 'Windows_NT', 'Linux', 'Darwin'
+console.log(os.arch());         // 'x64', 'arm64'
+console.log(os.release());      // OS version
+console.log(os.hostname());     // Computer name
+console.log(os.homedir());      // User home directory
+console.log(os.tmpdir());       // Temp directory
+
+// CPU info
+console.log(os.cpus());         // Array of CPU cores
+console.log(os.cpus().length);  // Number of CPU cores
+console.log(os.totalmem());     // Total memory in bytes
+console.log(os.freemem());      // Free memory in bytes
+
+// Network interfaces
+console.log(os.networkInterfaces());
+
+// Useful helper
+function getMemoryInfo() {
+    const total = os.totalmem();
+    const free = os.freemem();
+    const used = total - free;
+    
+    return {
+        total: (total / 1024 / 1024 / 1024).toFixed(2) + ' GB',
+        free: (free / 1024 / 1024 / 1024).toFixed(2) + ' GB',
+        used: (used / 1024 / 1024 / 1024).toFixed(2) + ' GB',
+        usagePercent: ((used / total) * 100).toFixed(2) + '%'
+    };
+}
+process (Process Info & Control)
+javascript
+
+// ========== PROCESS INFO ==========
+// Parse arguments properly
+function parseArgs() {
+    const args = {};
+    process.argv.slice(2).forEach(arg => {
+        if (arg.startsWith('--')) {
+            const [key, value] = arg.slice(2).split('=');
+            args[key] = value || true;
+        }
+    });
+    return args;
+}
+// parseArgs() → { name: 'John' }
+
+// ========== ENVIRONMENT VARIABLES ==========
+// Access
+console.log(process.env.NODE_ENV);
+console.log(process.env.PORT);
+
+// Set
+process.env.MY_VAR = 'value';
+
+// ========== EXIT HANDLING ==========
+process.on('exit', (code) => {
+    console.log(`Exiting with code: ${code}`);
+});
+
+// Graceful shutdown
+process.on('SIGINT', () => {
+    console.log('Received SIGINT (Ctrl+C)');
+    // Cleanup here
+    process.exit(0);
+});
+
+process.on('SIGTERM', () => {
+    console.log('Received SIGTERM');
+    process.exit(0);
+});
+
+// ========== EXIT CODES ==========
+process.exit(0);   // Success
+process.exit(1);   // General error
+process.exit(2);   // Misuse of shell command
+
+// ========== STDIO ==========
+process.stdout.write('Hello ');      // Same as console.log
+process.stderr.write('Error!\n');    // Same as console.error
+
+// ========== PROCESS EVENTS ==========
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection:', reason);
+    process.exit(1);
+});
+
+// ========== CPU INTENSIVE WORK ==========
+// Get process CPU usage
+const startUsage = process.cpuUsage();
+// ... do some work
+const endUsage = process.cpuUsage(startUsage);
+console.log(endUsage); // { user: 12345, system: 6789 } in microseconds
+
+// Process memory usage
+const memory = process.memoryUsage();
+console.log(memory);
+// {
+//   rss: 52428800,      // Resident Set Size (total memory)
+//   heapTotal: 31457280, // Total heap allocated
+//   heapUsed: 20971520,  // Heap actually used
+//   external: 1048576,   // External memory (C++ objects)
+//   arrayBuffers: 8192   // ArrayBuffer memory
+// }
+util (Utility Functions)
+javascript
+
+const util = require('util');
+
+// Promisify callback functions
+const fs = require('fs');
+
+const readFile = util.promisify(fs.readFile);
+async function read() {
+    const data = await readFile('file.txt', 'utf8');
+    console.log(data);
+}
+
+// Inspect objects (like console.log but customizable)
+const obj = { name: 'John', age: 25 };
+console.log(util.inspect(obj, { colors: true, depth: null, compact: false }));
+
+// Check types
+util.isString('hello');  // true
+util.isNumber(123);      // true
+util.isArray([1, 2]);    // true
+util.isDate(new Date()); // true
+util.isError(new Error());// true
+
+// Deprecated - use typeof/Array.isArray instead
+events (Event Emitter)
+javascript
+
+const EventEmitter = require('events');
+
+// Create custom event emitter
+class MyEmitter extends EventEmitter {}
+
+const myEmitter = new MyEmitter();
+
+// Listen for events
+myEmitter.on('event', (data) => {
+    console.log('Event occurred:', data);
+});
+
+// Listen once (removes listener after first call)
+myEmitter.once('connect', () => {
+    console.log('Connected!');
+});
+
+// Emit events
+myEmitter.emit('event', { message: 'Hello' });
+myEmitter.emit('connect');
+
+// Error handling (required!)
+myEmitter.on('error', (err) => {
+    console.error('Error:', err.message);
+});
+
+// If no error listener, error throws and crashes process
+// myEmitter.emit('error', new Error('Something went wrong'));
+
+// ========== PRACTICAL EXAMPLE: Logger ==========
+class Logger extends EventEmitter {
+    log(message) {
+        this.emit('message', { level: 'info', message, timestamp: new Date() });
+    }
+    
+    error(message) {
+        this.emit('message', { level: 'error', message, timestamp: new Date() });
+    }
+}
+
+const logger = new Logger();
+
+logger.on('message', (data) => {
+    console.log(`[${data.level}] ${data.timestamp}: ${data.message}`);
+});
+
+logger.log('Server started');
+logger.error('Database connection failed');
+
+// ========== Event emitter methods ==========
+const callback = (data) => console.log(data);
+
+myEmitter.on('test', callback);
+myEmitter.off('test', callback);          // Remove specific listener
+myEmitter.removeListener('test', callback); // Same as off
+myEmitter.removeAllListeners('test');      // Remove all for event
+myEmitter.removeAllListeners();            // Remove all for all events
+
+// Get listener count
+myEmitter.listenerCount('event');          // Number of listeners
+myEmitter.listeners('event');              // Array of listener functions
+
+// Set max listeners (default is 10, warns if exceeded)
+myEmitter.setMaxListeners(20);
+crypto (Cryptography)
+javascript
+
+const crypto = require('crypto');
+
+// ========== HASHING (One-way) ==========
+// Create hash
+const hash1 = crypto.createHash('sha256').update('password123').digest('hex');
+console.log(hash1);
+// Output: ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f
+
+// With stream
+const hash2 = crypto.createHash('sha512');
+hash2.update('part1');
+hash2.update('part2');
+console.log(hash2.digest('hex'));
+
+// ========== SALT + HASH (for passwords) ==========
+function hashPassword(password) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+    return { salt, hash };
+}
+
+function verifyPassword(password, salt, hash) {
+    const newHash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+    return newHash === hash;
+}
+
+const { salt, hash } = hashPassword('mypassword');
+console.log(verifyPassword('mypassword', salt, hash)); // true
+console.log(verifyPassword('wrongpassword', salt, hash)); // false
+
+// ========== ENCRYPTION (Two-way) ==========
+// Symmetric encryption
+const algorithm = 'aes-256-cbc';
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+
+function encrypt(text) {
+    const cipher = crypto.createCipheriv(algorithm, key, iv);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return encrypted;
+}
+
+function decrypt(encrypted) {
+    const decipher = crypto.createDecipheriv(algorithm, key, iv);
+    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
+
+const encrypted = encrypt('Secret message');
+const decrypted = decrypt(encrypted);
+console.log(decrypted); // 'Secret message'
+
+// ========== RANDOM VALUES ==========
+console.log(crypto.randomBytes(16).toString('hex')); // Random hex string
+console.log(crypto.randomBytes(32).toString('base64')); // Random base64
+console.log(crypto.randomUUID()); // UUID v4
+
+// ========== HMAC (Hash-based Message Authentication Code) ==========
+const secret = 'my-secret-key';
+const hmac = crypto.createHmac('sha256', secret).update('message to sign').digest('hex');
+console.log(hmac);
+buffer (Binary Data)
+javascript
+
+// Buffers store raw binary data
+// Used for file I/O, network operations, cryptography
+
+// Create buffers
+const buf1 = Buffer.from('Hello');           // From string
+const buf2 = Buffer.from([1, 2, 3, 4, 5]);  // From array
+const buf3 = Buffer.alloc(10);               // 10 bytes, zero-filled
+const buf4 = Buffer.allocUnsafe(10);         // 10 bytes, uninitialized (faster)
+
+// Buffer properties
+console.log(buf1.length);    // 5
+console.log(buf1.toString()); // 'Hello'
+console.log(buf1.toJSON());   // { type: 'Buffer', data: [72, 101, 108, 108, 111] }
+
+// Read and write
+const buf = Buffer.alloc(5);
+buf[0] = 72;  // 'H'
+buf[1] = 101; // 'e'
+buf[2] = 108; // 'l'
+buf[3] = 108; // 'l'
+buf[4] = 111; // 'o'
+console.log(buf.toString()); // 'Hello'
+
+// Write string
+buf.write('World');
+console.log(buf.toString()); // 'World'
+
+// Slice (creates reference, not copy!)
+const original = Buffer.from('Hello World');
+const slice = original.slice(0, 5);
+slice[0] = 74; // Changes to 'J'
+console.log(original.toString()); // 'Jello World'
+
+// Copy (actual copy)
+const copy = Buffer.alloc(5);
+original.copy(copy, 0, 0, 5);
+copy[0] = 74;
+console.log(original.toString()); // 'Jello World' (unchanged)
+console.log(copy.toString());     // 'Jello'
+
+// Concatenate
+const combined = Buffer.concat([Buffer.from('Hello '), Buffer.from('World')]);
+console.log(combined.toString()); // 'Hello World'
+
+// Compare
+Buffer.from('ABC').compare(Buffer.from('ABD')); // -1 (ABC comes before ABD)
+Buffer.from('ABD').compare(Buffer.from('ABC')); // 1
+Buffer.from('ABC').compare(Buffer.from('ABC')); // 0
+
+// Check if buffer contains value
+buf.includes('ell'); // true
+buf.indexOf('l');    // 2
+stream (Streaming Data)
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    STREAMS CONCEPT                                   │
+│                                                                      │
+│  Instead of loading entire file/data into memory at once,           │
+│  streams process data chunk by chunk.                               │
+│                                                                      │
+│  ┌──────────┐     ┌──────────┐     ┌──────────┐                    │
+│  │  Source   │ ──→ │  Stream  │ ──→ │  Destination │                 │
+│  │ (File)   │     │ (Chunks) │     │ (File/Response)│               │
+│  └──────────┘     └──────────┘     └──────────┘                    │
+│                                                                      │
+│  Benefits:                                                          │
+│  • Low memory usage (process large files)                           │
+│  • Start processing before all data received                        │
+│  • Can pipe streams together                                        │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+javascript
+
+const fs = require('fs');
+});
+
+// ========== PIPE (Connect streams) ==========
+// Copy file with very low memory usage
+const readStream = fs.createReadStream('input.txt');
+const writeStream = fs.createWriteStream('output.txt');
+readStream.pipe(writeStream);
+
+// Chain pipes
+const { createGzip } = require('zlib');
+fs.createReadStream('input.txt')
+    .pipe(createGzip())           // Compress
+    .pipe(fs.createWriteStream('output.txt.gz'));
+
+// ========== TRANSFORM STREAM ==========
+// Convert data as it flows through
+const upperCaseTransform = new Transform({
+    transform(chunk, encoding, callback) {
+        this.push(chunk.toString().toUpperCase());
+        callback();
+    }
+});
+
+fs.createReadStream('input.txt')
+    .pipe(upperCaseTransform)
+    .pipe(fs.createWriteStream('output.txt'));
+
+// ========== PRACTICAL: HTTP FILE STREAMING ==========
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+    // Stream large file without loading into memory
+    const stream = fs.createReadStream('large-video.mp4');
+    stream.pipe(res);
+});
+
+server.listen(3000);
+
+// ========== PIPELINE (Better error handling) ==========
+const { pipeline } = require('stream');
+
+pipeline(
+    fs.createReadStream('input.txt'),
+    createGzip(),
+    fs.createWriteStream('output.txt.gz'),
+    (err) => {
+        if (err) {
+            console.error('Pipeline failed:', err);
+        } else {
+            console.log('Pipeline succeeded');
+        }
+    }
+);
+zlib (Compression)
+javascript
+
+const zlib = require('zlib');
+const fs = require('fs');
+
+// Gzip compress
+fs.createReadStream('file.txt')
+    .pipe(zlib.createGzip())
+    .pipe(fs.createWriteStream('file.txt.gz'));
+
+// Gzip decompress
+fs.createReadStream('file.txt.gz')
+    .pipe(zlib.createGunzip())
+    .pipe(fs.createWriteStream('file.txt'));
+
+// Deflate compress
+fs.createReadStream('file.txt')
+    .pipe(zlib.createDeflate())
+    .pipe(fs.createWriteStream('file.txt.deflate'));
+
+// Async compression
+async function compress(data) {
+    const compressed = await zlib.promises.gzip(data);
+    return compressed;
+}
+child_process (Run External Commands)
+javascript
+
+const { exec, execSync, spawn, fork } = require('child_process');
+
+// ========== exec - Run command, get output as string ==========
+exec('ls -la', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`Error: ${error.message}`);
+        return;
+    }
+    console.log(`Output:\n${stdout}`);
+});
+
+// With promises
+const { exec: execPromise } = require('child_process');
+async function runCommand() {
+    const { stdout } = await execPromise('echo "Hello"');
+    console.log(stdout);
+}
+
+// execSync - Blocking version
+const output = execSync('ls -la').toString();
+
+// ========== spawn - Stream output (for long processes) ==========
+const child = spawn('ls', ['-la']);
+
+child.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+});
+
+child.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+});
+
+child.on('close', (code) => {
+    console.log(`Process exited with code ${code}`);
+});
+
+// Example: Run npm install
+const npm = spawn('npm', ['install', 'express']);
+npm.stdout.pipe(process.stdout);
+
+// ========== fork - Create Node.js child process ==========
+// main.js
+const child = fork('./worker.js');
+child.send({ hello: 'world' });
+child.on('message', (msg) => {
+    console.log('From child:', msg);
+});
+
+// worker.js
+process.on('message', (msg) => {
+    console.log('From parent:', msg);
+    process.send({ received: true });
+});
+cluster (Multi-core Utilization)
+javascript
+
+const cluster = require('cluster');
+const os = require('os');
+const http = require('http');
+
+const numCPUs = os.cpus().length;
+
+if (cluster.isPrimary) {
+    // Master process - fork workers
+    console.log(`Master ${process.pid} is running`);
+    
+    for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
+    
+    cluster.on('exit', (worker) => {
+        console.log(`Worker ${worker.process.pid} died. Restarting...`);
+        cluster.fork(); // Restart dead worker
+    });
+} else {
+    // Worker process - handle requests
+    http.createServer((req, res) => {
+        res.writeHead(200);
+        res.end(`Hello from worker ${process.pid}`);
+    }).listen(3000);
+    
+    console.log(`Worker ${process.pid} started`);
+}
+npm (Node Package Manager)
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                         npm COMMANDS                                 │
+│                                                                      │
+│  INITIALIZATION                                                      │
+│  npm init              Create package.json                          │
+│  npm init -y           Create with defaults                         │
+│                                                                      │
+│  INSTALLING PACKAGES                                                  │
+│  npm install express     Install and save to dependencies           │
+│  npm install -D nodemon  Install to devDependencies                  │
+│  npm install -g typescript Install globally                         │
+│  npm install             Install all from package.json               │
+│                                                                      │
+│  UNINSTALLING                                                         │
+│  npm uninstall express   Remove package                             │
+│                                                                      │
+│  UPDATING                                                             │
+│  npm update             Update all packages                         │
+│  npm outdated           Check for updates                           │
+│                                                                      │
+│  RUNNING SCRIPTS                                                      │
+│  npm run dev            Run script named "dev"                      │
+│  npm start              Run "start" script (no "run" needed)        │
+│  npm test               Run "test" script                           │
+│                                                                      │
+│  INFORMATION                                                          │
+│  npm list               List installed packages                     │
+│  npm info express       Show package info                           │
+│  npm view express versions Show all versions                        │
+│                                                                      │
+│  PACKAGES                                                             │
+│  npm pack               Create tarball of package                   │
+│  npm publish            Publish to npm registry                     │
+│                                                                      │
+│  CACHE                                                                │
+│  npm cache clean --force Clear npm cache                            │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+package.json Explained
+json
+
+{
+    "name": "my-app",
+    "version": "1.0.0",
+    "description": "My awesome app",
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "nodemon src/index.js",
+        "test": "jest",
+        "build": "tsc",
+        "lint": "eslint src/",
+        "prepare": "husky install"
+    },
+    "keywords": ["node", "express", "api"],
+    "author": "Your Name <email@example.com>",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.18.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.0",
+        "jest": "^29.0.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/user/repo"
+    },
+    "bin": {
+        "my-cli": "./bin/cli.js"
+    }
+}
+Version Numbers
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    SEMANTIC VERSIONING (semver)                      │
+│                                                                      │
+│  Version format: MAJOR.MINOR.PATCH                                  │
+│  Example: 1.2.3                                                     │
+│           │ │ │                                                      │
+│           │ │ └── PATCH: Bug fixes (no new features)               │
+│           │ └──── MINOR: New features (backward compatible)         │
+│           └────── MAJOR: Breaking changes                           │
+│                                                                      │
+│  Prefixes in package.json:                                          │
+│  "^1.2.3" → Updates to 1.x.x (compatible changes)                 │
+│  "~1.2.3" → Updates to 1.2.x (patch only)                         │
+│  "1.2.3"  → Exact version                                           │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+Node.js Single-Threaded Model
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    SINGLE THREAD + THREAD POOL                       │
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    MAIN THREAD (Single)                      │   │
+│  │                                                              │   │
+│  │  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐       │   │
+│  │  │ Event   │  │ Your    │  │ Your    │  │ Your    │       │   │
+│  │  │ Loop    │  │ Code    │  │ Code    │  │ Code    │       │   │
+│  │  └─────────┘  └─────────┘  └─────────┘  └─────────┘       │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                              │                                       │
+│                              │ Delegates heavy tasks                 │
+│                              ▼                                       │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    LIBUV THREAD POOL (4 threads default)     │   │
+│  │                                                              │   │
+│  │  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐       │   │
+│  │  │Thread 1 │  │Thread 2 │  │Thread 3 │  │Thread 4 │       │   │
+│  │  └─────────┘  └─────────┘  └─────────┘  └─────────┘       │   │
+│  │                                                              │   │
+│  │  Handles:                                                   │   │
+│  │  • File system operations                                   │   │
+│  │  • DNS lookups                                              │   │
+│  │  • Compression (zlib)                                       │   │
+│  │  • Crypto operations                                        │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                                                                      │
+│  ⚠️ CPU-intensive tasks BLOCK the main thread!                      │
+│     Use: worker_threads, cluster, or child_process                 │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+Blocking vs Non-Blocking
+javascript
+
+const fs = require('fs');
+
+// ========== BLOCKING (Bad for server) ==========
+// Thread is blocked, cannot handle other requests
+const data = fs.readFileSync('large-file.txt');
+console.log('This runs AFTER file is read');
+// Entire server freezes until file is read!
+
+// ========== NON-BLOCKING (Good for server) ==========
+// Thread continues, callback runs when file is read
+fs.readFile('large-file.txt', (err, data) => {
+    console.log('File read complete');
+});
+console.log('This runs IMMEDIATELY, before file is read!');
+// Server can handle other requests while reading file
+
+// ========== CPU-INTENSIVE (Always blocks main thread!) ==========
+// This WILL block the event loop
+function calculatePrimes(n) {
+    const primes = [];
+    for (let i = 2; i <= n; i++) {
+        let isPrime = true;
+        for (let j = 2; j <= Math.sqrt(i); j++) {
+            if (i % j === 0) {
+                isPrime = false;
+                break;
+            }
+        }
+        if (isPrime) primes.push(i);
+    }
+    return primes;
+}
+
+// SOLUTION: Use worker_threads
+const { Worker } = require('worker_threads');
+
+function calculatePrimesInWorker(n) {
+    return new Promise((resolve, reject) => {
+        const worker = new Worker('./primeWorker.js', {
+            workerData: n
+        });
+        
+        worker.on('message', resolve);
+        worker.on('error', reject);
+        worker.on('exit', (code) => {
+            if (code !== 0) reject(new Error(`Worker stopped with ${code}`));
+        });
+    });
+}
+
+// primeWorker.js
+// const { parentPort, workerData } = require('worker_threads');
+// const result = calculatePrimes(workerData);
+// parentPort.postMessage(result);
+Debugging Node.js
+javascript
+
+// ========== CONSOLE METHODS ==========
+console.log('Regular log');
+console.error('Error message');
+console.warn('Warning message');
+console.info('Info message');
+console.debug('Debug message'); // May not show in some environments
+
+console.table([
+    { name: 'John', age: 25 },
+    { name: 'Jane', age: 30 }
+]);
+
+console.time('operation');
+// ... code to measure
+console.timeEnd('operation'); // operation: 123.456ms
+
+console.trace('Trace here'); // Shows call stack
+console.assert(1 === 2, '1 is not equal to 2'); // Assertion failed
+
+// ========== NODE DEBUGGER ==========
+// Start with: node inspect script.js
+// Then connect with Chrome DevTools or use CLI commands
+
+// Set breakpoints in code
+const debugger = require('debug')('app:debug');
+debugger('Debug message');
+
+// ========== BUILT-IN INSPECTOR ==========
+// node --inspect script.js
+// Open chrome://inspect in Chrome
+
+// ========== VS CODE DEBUGGING ==========
+// Create .vscode/launch.json
+/*
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/index.js"
+        }
+    ]
+}
+*/
+Quick Reference Card
+text
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    NODE.JS QUICK REFERENCE                           │
+├─────────────────────────────────────────────────────────────────────┤
+│ RUN SCRIPTS                                                          │
+│   node app.js              Run script                               │
+│   node --watch app.js      Auto-restart on changes                  │
+│   node -e "console.log(1)" Execute inline code                     │
+│   node -p "1+1"            Execute and print result                 │
+├─────────────────────────────────────────────────────────────────────┤
+│ MODULES                                                              │
+│   require('./file')         Import CommonJS module                  │
+│   module.exports = {}       Export from CommonJS                    │
+│   import {} from './file'   Import ES module                        │
+│   export {}                 Export from ES module                   │
+├─────────────────────────────────────────────────────────────────────┤
+│ ASYNC PATTERNS                                                       │
+│   callback(err, result)    Old pattern                              │
+│   .then().catch()           Promise pattern                         │
+│   async/await               Modern pattern (recommended)            │
+│   Promise.all([p1, p2])    Parallel execution                      │
+├─────────────────────────────────────────────────────────────────────┤
+│ EVENT LOOP ORDER                                                     │
+│   Sync → nextTick → Promises → Timers → I/O → setImmediate → Close│
+├─────────────────────────────────────────────────────────────────────┤
+│ COMMON MODULES                                                        │
+│   fs                        File system                             │
+│   path                      Path handling                           │
+│   http                      HTTP server                             │
+│   https                     HTTPS server                            │
+│   url                       URL parsing                             │
+│   querystring               Query parsing                           │
+│   os                        OS info                                 │
+│   process                   Process info & control                  │
+│   events                    Event emitter                           │
+│   crypto                    Cryptography                            │
+│   buffer                    Binary data                             │
+│   stream                    Stream handling                         │
+│   zlib                      Compression                             │
+│   util                      Utilities                               │
+│   child_process             Run external commands                   │
+│   cluster                   Multi-core                              │
+├─────────────────────────────────────────────────────────────────────┤
+│ IMPORTANT CONCEPTS                                                   │
+│   • Single-threaded (but uses thread pool for I/O)                 │
+│   • Non-blocking by design                                         │
+│   • Event-driven architecture                                      │
+│   • V8 engine executes JavaScript                                  │
+│   • Libuv handles async I/O and event loop                         │
+│   • CPU-intensive work needs worker_threads                        │
+└─────────────────────────────────────────────────────────────────────┘
+This guide covers Node.js comprehensively. The key things to understand deeply are:
+
+Event Loop - How async works
+Modules - How to organize code
+Streams - How to handle large data
+Async/Await - How to write async code
+Built-in Modules - What Node provides out of the box
